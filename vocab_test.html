@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英文單字測驗</title>
+  <style>
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>英文單字測驗</h1>
+  <table id="vocabTable">
+    <tr>
+      <th>中文</th>
+      <th>英文答案</th>
+      <th>發音</th>
+      <th>檢查結果</th>
+    </tr>
+  </table>
+  <button onclick="checkAnswers()">檢查答案</button>
+
+  <script>
+    function loadVocabulary() {
+      // 解析 JSON 字符串
+      const vocabulary = JSON.parse(document.getElementById('jsonInput').textContent);
+      
+      const table = document.getElementById('vocabTable');
+      vocabulary.vocabulary.forEach((word, index) => {
+        const row = table.insertRow(index + 1);
+        const cell1 = row.insertCell(0);
+        const cell2 = row.insertCell(1);
+        const cell3 = row.insertCell(2);
+        const cell4 = row.insertCell(3);
+
+        cell1.innerHTML = word.chinese;
+        cell2.innerHTML = `<input type="text" id="answer_${index}" />`;
+        cell3.innerHTML = `<button onclick="speak('${word.english}')">發音</button>`;
+        cell4.id = `result_${index}`; // 用於顯示結果
+      });
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
+
+    function checkAnswers() {
+      const vocabulary = JSON.parse(document.getElementById('jsonInput').textContent);
+      vocabulary.vocabulary.forEach((word, index) => {
+        const userAnswer = document.getElementById(`answer_${index}`).value.toLowerCase();
+        const resultCell = document.getElementById(`result_${index}`);
+        
+        // 檢查答案
+        if (userAnswer === word.english.toLowerCase()) {
+          resultCell.innerHTML = '正確';
+          resultCell.className = 'correct';  // 加上綠色字體
+        } else {
+          resultCell.innerHTML = `錯誤，正確答案是 ${word.english}`;
+          resultCell.className = 'incorrect';  // 加上紅色字體和加粗
+        }
+      });
+    }
+
+    // 頁面載入時讀取單字
+    window.onload = loadVocabulary;
+  </script>
+
+  <!-- 單字的JSON文件直接貼在這個區塊內，格式為字符串 -->
+  <pre id="jsonInput" style="display:none;">
+{
+  "vocabulary": [
+    {"chinese": "公司", "english": "company"},
+    {"chinese": "顧客", "english": "customer"},
+    {"chinese": "會議", "english": "meeting"},
+    {"chinese": "文件", "english": "document"},
+    {"chinese": "銷售", "english": "sale"},
+    {"chinese": "合約", "english": "contract"},
+    {"chinese": "目標", "english": "goal"},
+    {"chinese": "報告", "english": "report"},
+    {"chinese": "計畫", "english": "plan"},
+    {"chinese": "供應商", "english": "supplier"},
+    {"chinese": "產品", "english": "product"},
+    {"chinese": "部門", "english": "department"},
+    {"chinese": "費用", "english": "expense"},
+    {"chinese": "市場", "english": "market"},
+    {"chinese": "宣傳", "english": "promotion"},
+    {"chinese": "會計", "english": "accounting"},
+    {"chinese": "運輸", "english": "transportation"},
+    {"chinese": "經理", "english": "manager"},
+    {"chinese": "策略", "english": "strategy"},
+    {"chinese": "顧問", "english": "consultant"},
+    {"chinese": "議程", "english": "agenda"},
+    {"chinese": "預算", "english": "budget"},
+    {"chinese": "合併", "english": "merge"},
+    {"chinese": "支付", "english": "payment"},
+    {"chinese": "供應鏈", "english": "supply chain"},
+    {"chinese": "研發", "english": "research and development"},
+    {"chinese": "服務", "english": "service"},
+    {"chinese": "獲利", "english": "profit"},
+    {"chinese": "成長", "english": "growth"},
+    {"chinese": "預定", "english": "reservation"},
+    {"chinese": "倉庫", "english": "warehouse"},
+    {"chinese": "合夥人", "english": "partner"},
+    {"chinese": "團隊", "english": "team"},
+    {"chinese": "業務", "english": "business"},
+    {"chinese": "辦公室", "english": "office"},
+    {"chinese": "運作", "english": "operation"},
+    {"chinese": "會計師", "english": "accountant"},
+    {"chinese": "提案", "english": "proposal"},
+    {"chinese": "郵件", "english": "mail"},
+    {"chinese": "報價", "english": "quotation"},
+    {"chinese": "要求", "english": "request"},
+    {"chinese": "租賃", "english": "rental"},
+    {"chinese": "儀式", "english": "ceremony"},
+    {"chinese": "折扣", "english": "discount"},
+    {"chinese": "通告", "english": "announcement"},
+    {"chinese": "辦公室用品", "english": "office supplies"},
+    {"chinese": "保險", "english": "insurance"},
+    {"chinese": "績效", "english": "performance"},
+    {"chinese": "薪水", "english": "salary"},
+    {"chinese": "資源", "english": "resource"}
+  ]
+}
+
+  </pre>
+</body>
+</html>
