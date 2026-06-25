@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>澎湖三天三夜口袋清單</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="eyebrow">Penghu Trip Guide</p>
+      <h1>澎湖三天三夜口袋清單</h1>
+      <p class="subtitle">馬公、湖西、澎南、白沙、西嶼｜景點、美食、咖啡廳、玩水與雨天備案</p>
+      <div class="version">
+        <span>版本：2026-06-25</span>
+        <span>資料範圍：澎湖本島＋陸路可達北環</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="notice">
+      <strong>使用方式：</strong>出門時先選地區或類別，看到想去的點直接按「Google Maps 導航」。Google 評價採手動維護欄位；尚未確認者會顯示「待更新」，可點「看 Google Maps」即時確認。
+    </section>
+
+    <section class="toolbar" aria-label="篩選工具列">
+      <label class="searchBox">
+        <span>搜尋</span>
+        <input id="searchInput" type="search" placeholder="輸入景點、美食、咖啡廳、標籤…" autocomplete="off" />
+      </label>
+
+      <div class="filterBlock">
+        <h2>快速篩選</h2>
+        <div class="chips" data-filter-group="quick">
+          <button class="chip is-active" data-value="all">全部</button>
+          <button class="chip" data-value="rainy">雨天可去</button>
+          <button class="chip" data-value="highRating">高評價 4.0+</button>
+          <button class="chip" data-value="popular">熱門 500+ 評論</button>
+          <button class="chip" data-value="superPopular">超熱門 1000+</button>
+          <button class="chip" data-value="water">玩水</button>
+          <button class="chip" data-value="familyWater">親子玩水</button>
+          <button class="chip" data-value="needOperator">需找業者</button>
+          <button class="chip" data-value="ratingPending">評價待補</button>
+        </div>
+      </div>
+
+      <div class="filterBlock">
+        <h2>類別</h2>
+        <div class="chips" data-filter-group="category">
+          <button class="chip is-active" data-value="all">全部類別</button>
+          <button class="chip" data-value="展館">展館</button>
+          <button class="chip" data-value="景點">景點</button>
+          <button class="chip" data-value="美食">美食</button>
+          <button class="chip" data-value="咖啡廳">咖啡廳</button>
+          <button class="chip" data-value="玩水">玩水</button>
+        </div>
+      </div>
+
+      <div class="filterBlock">
+        <h2>地區</h2>
+        <div class="chips" data-filter-group="area">
+          <button class="chip is-active" data-value="all">全部地區</button>
+          <button class="chip" data-value="馬公市區">馬公市區</button>
+          <button class="chip" data-value="湖西">湖西</button>
+          <button class="chip" data-value="澎南">澎南</button>
+          <button class="chip" data-value="白沙">白沙</button>
+          <button class="chip" data-value="西嶼">西嶼</button>
+        </div>
+      </div>
+
+      <div class="filterBlock">
+        <h2>雨天狀態</h2>
+        <div class="chips" data-filter-group="rain">
+          <button class="chip is-active" data-value="all">全部</button>
+          <button class="chip" data-value="可以">雨天可去</button>
+          <button class="chip" data-value="勉強可以">雨天勉強</button>
+          <button class="chip" data-value="不建議">雨天不建議</button>
+        </div>
+      </div>
+
+      <div class="sortRow">
+        <label for="sortSelect">排序</label>
+        <select id="sortSelect">
+          <option value="default">預設排序</option>
+          <option value="ratingDesc">Google 評分高到低</option>
+          <option value="reviewsDesc">評論數多到少</option>
+          <option value="area">地區排序</option>
+          <option value="category">類別排序</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="summary" aria-live="polite">
+      <span id="resultCount">0</span>
+      <span id="activeFilters">全部景點</span>
+    </section>
+
+    <section id="cards" class="cards" aria-label="地點清單"></section>
+  </main>
+
+  <template id="cardTemplate">
+    <article class="card">
+      <div class="card__top">
+        <div>
+          <h3></h3>
+          <p class="meta"></p>
+        </div>
+        <span class="rainBadge"></span>
+      </div>
+      <div class="rating"></div>
+      <p class="note"></p>
+      <div class="tagList"></div>
+      <div class="waterInfo"></div>
+      <div class="actions">
+        <a class="btn primary mapBtn" target="_blank" rel="noopener">Google Maps 導航</a>
+        <a class="btn ghost searchBtn" target="_blank" rel="noopener">看 Google Maps</a>
+      </div>
+    </article>
+  </template>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
