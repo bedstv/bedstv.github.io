@@ -13,18 +13,21 @@
       <p class="eyebrow">Penghu Trip Guide</p>
       <h1>澎湖三天三夜口袋清單</h1>
       <p class="subtitle">馬公、湖西、澎南、白沙、西嶼｜景點、美食、咖啡廳、玩水與雨天備案</p>
-      <div class="version"><span>版本：2026-06-25</span><span>資料範圍：澎湖本島＋陸路可達北環</span></div>
+      <div class="version"><span>版本：2026-06-25 compact</span><span>資料範圍：澎湖本島＋陸路可達北環</span></div>
     </div>
   </header>
   <main class="container">
-    <section class="notice"><strong>使用方式：</strong>出門時先選地區或類別，看到想去的點直接按「Google Maps 導航」。Google 評價採手動維護欄位；尚未確認者會顯示「待更新」，可點「看 Google Maps」即時確認。</section>
-    <section class="toolbar" aria-label="篩選工具列">
-      <label class="searchBox"><span>搜尋</span><input id="searchInput" type="search" placeholder="輸入景點、美食、咖啡廳、標籤…" autocomplete="off" /></label>
-      <div class="filterBlock"><h2>快速篩選</h2><div class="chips" data-filter-group="quick"><button class="chip is-active" data-value="all">全部</button><button class="chip" data-value="rainy">雨天可去</button><button class="chip" data-value="highRating">高評價 4.0+</button><button class="chip" data-value="popular">熱門 500+ 評論</button><button class="chip" data-value="superPopular">超熱門 1000+</button><button class="chip" data-value="water">玩水</button><button class="chip" data-value="familyWater">親子玩水</button><button class="chip" data-value="needOperator">需找業者</button><button class="chip" data-value="ratingPending">評價待補</button></div></div>
-      <div class="filterBlock"><h2>類別</h2><div class="chips" data-filter-group="category"><button class="chip is-active" data-value="all">全部類別</button><button class="chip" data-value="展館">展館</button><button class="chip" data-value="景點">景點</button><button class="chip" data-value="美食">美食</button><button class="chip" data-value="咖啡廳">咖啡廳</button><button class="chip" data-value="玩水">玩水</button></div></div>
-      <div class="filterBlock"><h2>地區</h2><div class="chips" data-filter-group="area"><button class="chip is-active" data-value="all">全部地區</button><button class="chip" data-value="馬公市區">馬公市區</button><button class="chip" data-value="湖西">湖西</button><button class="chip" data-value="澎南">澎南</button><button class="chip" data-value="白沙">白沙</button><button class="chip" data-value="西嶼">西嶼</button></div></div>
-      <div class="filterBlock"><h2>雨天狀態</h2><div class="chips" data-filter-group="rain"><button class="chip is-active" data-value="all">全部</button><button class="chip" data-value="可以">雨天可去</button><button class="chip" data-value="勉強可以">雨天勉強</button><button class="chip" data-value="不建議">雨天不建議</button></div></div>
-      <div class="sortRow"><label for="sortSelect">排序</label><select id="sortSelect"><option value="default">預設排序</option><option value="ratingDesc">Google 評分高到低</option><option value="reviewsDesc">評論數多到少</option><option value="area">地區排序</option><option value="category">類別排序</option></select></div>
+    <section class="notice"><strong>使用方式：</strong>先用上方搜尋或快速篩選；需要更細分時，再展開「進階篩選」。看到想去的點直接按「Google Maps 導航」。</section>
+    <section class="toolbar compactToolbar" aria-label="篩選工具列">
+      <label class="searchBox compactSearch"><span>搜尋</span><input id="searchInput" type="search" placeholder="輸入景點、美食、咖啡廳…" autocomplete="off" /></label>
+      <div class="filterBlock quickOnly"><h2>快速</h2><div class="chips" data-filter-group="quick"><button class="chip is-active" data-value="all">全部</button><button class="chip" data-value="rainy">雨天</button><button class="chip" data-value="water">玩水</button><button class="chip" data-value="familyWater">親子玩水</button><button class="chip" data-value="highRating">4.0+</button><button class="chip" data-value="popular">500+ 評論</button><button class="chip" data-value="superPopular">1000+</button><button class="chip" data-value="needOperator">需業者</button><button class="chip" data-value="ratingPending">評價待補</button></div></div>
+      <details class="advancedFilters">
+        <summary>進階篩選：地區／類別／雨天／排序</summary>
+        <div class="filterBlock"><h2>類別</h2><div class="chips" data-filter-group="category"><button class="chip is-active" data-value="all">全部類別</button><button class="chip" data-value="展館">展館</button><button class="chip" data-value="景點">景點</button><button class="chip" data-value="美食">美食</button><button class="chip" data-value="咖啡廳">咖啡廳</button><button class="chip" data-value="玩水">玩水</button></div></div>
+        <div class="filterBlock"><h2>地區</h2><div class="chips" data-filter-group="area"><button class="chip is-active" data-value="all">全部地區</button><button class="chip" data-value="馬公市區">馬公市區</button><button class="chip" data-value="湖西">湖西</button><button class="chip" data-value="澎南">澎南</button><button class="chip" data-value="白沙">白沙</button><button class="chip" data-value="西嶼">西嶼</button></div></div>
+        <div class="filterBlock"><h2>雨天狀態</h2><div class="chips" data-filter-group="rain"><button class="chip is-active" data-value="all">全部</button><button class="chip" data-value="可以">雨天可去</button><button class="chip" data-value="勉強可以">雨天勉強</button><button class="chip" data-value="不建議">雨天不建議</button></div></div>
+        <div class="sortRow"><label for="sortSelect">排序</label><select id="sortSelect"><option value="default">預設排序</option><option value="ratingDesc">Google 評分高到低</option><option value="reviewsDesc">評論數多到少</option><option value="area">地區排序</option><option value="category">類別排序</option></select></div>
+      </details>
     </section>
     <section class="summary" aria-live="polite"><span id="resultCount">0</span><span id="activeFilters">全部景點</span></section>
     <section id="cards" class="cards" aria-label="地點清單"></section>
