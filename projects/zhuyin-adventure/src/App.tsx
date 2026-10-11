@@ -1,3 +1,13 @@
+import { Glyph, Bunny, navigate, Button, Header, Modal } from "./components/ui";
+import { AdvancedSetup, AdvancedRound } from "./components/AdvancedGames";
+import {
+  ADVANCED_GAMES,
+  WORDS,
+  TONES,
+  isAdvancedGame,
+  type AdvancedGame,
+} from "./data/advanced";
+import { wordNotation, type AdvancedConfig } from "./core/advanced-rules";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { SYMBOLS, symbol, batchSymbols, VERSION } from "./data/symbols";
 import { audio } from "./core/audio";
@@ -80,28 +90,7 @@ const KIND: Record<ResultKind, string> = {
   skipped: "略過",
   interrupted: "中斷",
 };
-function Glyph({ id, large = false }: { id: string; large?: boolean }) {
-  return (
-    <img
-      className={large ? "glyph large" : "glyph"}
-      src={`${BASE}glyphs/${id}.svg`}
-      alt=""
-      aria-hidden="true"
-    />
-  );
-}
-function Bunny({ small = false }: { small?: boolean }) {
-  return (
-    <img
-      className={small ? "bunny small" : "bunny"}
-      src={`${BASE}icon.svg`}
-      alt="小兔嚮導"
-    />
-  );
-}
-function navigate(path: string) {
-  location.hash = path;
-}
+const ALL_GAMES = { ...GAMES, ...ADVANCED_GAMES };
 function useRoute() {
   const [path, setPath] = useState(location.hash.slice(1) || "/");
   useEffect(() => {
@@ -115,106 +104,6 @@ function useRoute() {
   }, []);
   return path;
 }
-function Button({
-  children,
-  onClick,
-  secondary = false,
-  disabled = false,
-  className = "",
-  label,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  secondary?: boolean;
-  disabled?: boolean;
-  className?: string;
-  label?: string;
-}) {
-  return (
-    <button
-      aria-label={label}
-      className={`button ${secondary ? "secondary" : ""} ${className}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children}
-    </button>
-  );
-}
-function Header({
-  title,
-  back = "/menu",
-  onBack,
-}: {
-  title: string;
-  back?: string;
-  onBack?: () => void;
-}) {
-  return (
-    <header className="topbar">
-      <button
-        className="icon-button"
-        aria-label="返回"
-        onClick={onBack || (() => navigate(back))}
-      >
-        ‹
-      </button>
-      <h1>{title}</h1>
-      <Bunny small />
-    </header>
-  );
-}
-function Modal({
-  children,
-  title,
-}: {
-  children: React.ReactNode;
-  title: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const prev = document.activeElement as HTMLElement;
-    const first = ref.current?.querySelector<HTMLElement>("button,input");
-    first?.focus();
-    const key = (e: KeyboardEvent) => {
-      if (e.key !== "Tab") return;
-      const list = Array.from(
-        ref.current?.querySelectorAll<HTMLElement>(
-          "button:not(:disabled),input,a[href]",
-        ) || [],
-      );
-      if (!list.length) return;
-      const first = list[0],
-        last = list[list.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        last.focus();
-        e.preventDefault();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        first.focus();
-        e.preventDefault();
-      }
-    };
-    document.addEventListener("keydown", key);
-    return () => {
-      document.removeEventListener("keydown", key);
-      prev?.focus();
-    };
-  }, []);
-  return (
-    <div className="overlay">
-      <div
-        className="dialog"
-        ref={ref}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
   const path = useRoute();
   const [progress, setProgress] = useState<Progress>(emptyProgress());
@@ -227,6 +116,9 @@ export default function App() {
   });
   const [adult, setAdult] = useState(false);
   const [gate, setGate] = useState(false);
+  const [advancedConfig, setAdvancedConfig] = useState<AdvancedConfig | null>(
+    null,
+  );
   const [roundConfig, setRoundConfig] = useState<{
     game: Game;
     difficulty: number;
@@ -276,6 +168,15 @@ export default function App() {
       alert("請再點一次「開始」，開啟遊戲聲音。");
     }
   }
+  async function beginAdvanced(config: AdvancedConfig) {
+    try {
+      await audio.unlock();
+      setAdvancedConfig({ ...config, questionCount: progress.roundQuestions });
+      navigate("/advanced-play");
+    } catch {
+      alert("請再點一次「開始」，開啟遊戲聲音。");
+    }
+  }
   if (!loaded)
     return (
       <main className="app loading">
@@ -299,7 +200,30 @@ export default function App() {
         }}
       />
     );
-  else if (path === "/play" && roundConfig)
+  else if (path === "/advanced-play" && advancedConfig)
+    content = (
+      <AdvancedRound
+        key={advancedConfig.game}
+        config={advancedConfig}
+        pool={progress}
+        update={update}
+        onDone={() => navigate("/menu")}
+      />
+    );
+  else if (path.startsWith("/advanced/")) {
+    const game = path.split("/")[2];
+    content = isAdvancedGame(game) ? (
+      <AdvancedSetup
+        key={game}
+        game={game}
+        progress={progress}
+        update={update}
+        begin={beginAdvanced}
+      />
+    ) : (
+      <Menu progress={progress} openParent={openParent} />
+    );
+  } else if (path === "/play" && roundConfig)
     content = (
       <Round
         config={roundConfig}
@@ -462,6 +386,33 @@ function Menu({
             </button>
           );
         })}
+      </section>
+      <section className="advanced-menu-section">
+        <h2>再往前一步的小冒險</h2>
+        <p className="muted">拼音、聲調、詞語與記憶；先聽小教室，再開始。</p>
+        <div className="game-menu">
+          {(Object.keys(ADVANCED_GAMES) as AdvancedGame[]).map((game) => {
+            const g = ADVANCED_GAMES[game];
+            return (
+              <button
+                key={game}
+                className={`game-card ${g.color}`}
+                onClick={() => navigate(`/advanced/${game}`)}
+              >
+                <span className="game-icon" aria-hidden="true">
+                  {g.icon}
+                </span>
+                <span>
+                  <strong>{g.title}</strong>
+                  <small>{g.tag}</small>
+                </span>
+                <span className="chevron" aria-hidden="true">
+                  ›
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </section>
       <div className="summary-card">
         <span>我的小花園</span>
@@ -1513,7 +1464,7 @@ function Parent({
                     return (
                       <tr key={key}>
                         <td>
-                          {GAMES[game as Game].title}
+                          {ALL_GAMES[game as keyof typeof ALL_GAMES].title}
                           <br />
                           <small>
                             難度 {Number(d) + 1}・
@@ -1543,11 +1494,34 @@ function Parent({
                 .reverse()
                 .map((r) => (
                   <div key={r.id}>
-                    <span>{GAMES[r.game].title}</span>
+                    <span>{ALL_GAMES[r.game].title}</span>
                     <strong>{KIND[r.kind]}</strong>
                   </div>
                 ))}
             </div>
+          </section>
+          <section>
+            <h2>進階冒險的學習紀錄</h2>
+            <div className="advanced-stats">
+              {(Object.keys(ADVANCED_GAMES) as AdvancedGame[]).map((game) => {
+                const s = stats(
+                  progress.results.filter((r) => r.game === game),
+                );
+                return (
+                  <div key={game}>
+                    <strong>{ADVANCED_GAMES[game].title}</strong>
+                    <span>
+                      {s.effective
+                        ? `獨立 ${s.independent} / ${s.effective} 題`
+                        : "尚無有效作答"}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="muted">
+              各能力分開記錄；翻翻樂一題代表整組配對。看答案提示、讀出小商店訂單、重聽與暫停重做，均不列為獨立完成。
+            </p>
           </section>
           <div className="note">
             這些紀錄供陪玩參考，不是能力診斷。發音僅跟讀，未使用語音辨識，也不提供發音分數。形狀配對和指令遊戲不會混入逐符號聽辨分數。最多保留最近
@@ -1559,7 +1533,7 @@ function Parent({
           <section aria-labelledby="round-questions-title">
             <h2 id="round-questions-title">每回合題目數</h2>
             <p>
-              適用於聽音找注音、注音九宮格與指令小隊長；認識注音可自由探索。
+              適用於全部九款作答遊戲；翻翻樂一題是一組配對。認識注音可自由探索。
             </p>
             <div className="option-grid" role="group" aria-label="每回合題目數">
               {ROUND_QUESTION_OPTIONS.map((count) => (
@@ -1619,6 +1593,70 @@ function Parent({
             </Button>
           </section>
           <section>
+            <h2>進階題庫：確認已學過的內容</h2>
+            <p>
+              只勾選您確認孩子已學過的詞語與聲調。遊戲仍會檢查其中注音是否已引入；這些勾選不是測驗成績。
+            </p>
+            <div className="parent-word-options">
+              {WORDS.map((w) => (
+                <button
+                  key={w.id}
+                  className={`option ${progress.advancedWords.includes(w.id) ? "selected" : ""}`}
+                  aria-pressed={progress.advancedWords.includes(w.id)}
+                  onClick={() =>
+                    update((p) => ({
+                      ...p,
+                      advancedWords: p.advancedWords.includes(w.id)
+                        ? p.advancedWords.filter((id) => id !== w.id)
+                        : [...p.advancedWords, w.id],
+                    }))
+                  }
+                >
+                  {w.text}
+                  <small>{wordNotation(w)}</small>
+                </button>
+              ))}
+            </div>
+            <Button
+              secondary
+              onClick={() =>
+                update((p) => ({ ...p, advancedWords: WORDS.map((w) => w.id) }))
+              }
+            >
+              我已確認：12 個詞語都學過
+            </Button>
+            <div className="option-grid tone-settings">
+              {TONES.map((t) => (
+                <button
+                  key={t.id}
+                  className={`option ${progress.introducedTones.includes(t.id) ? "selected" : ""}`}
+                  aria-pressed={progress.introducedTones.includes(t.id)}
+                  onClick={() =>
+                    update((p) => ({
+                      ...p,
+                      introducedTones: p.introducedTones.includes(t.id)
+                        ? p.introducedTones.filter((id) => id !== t.id)
+                        : [...p.introducedTones, t.id],
+                    }))
+                  }
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+            <Button
+              secondary
+              onClick={() =>
+                update((p) => ({
+                  ...p,
+                  introducedTones: TONES.map((t) => t.id),
+                }))
+              }
+            >
+              我已確認：四聲與輕聲都學過
+            </Button>
+          </section>
+          <section>
             <h2>聲音與離線</h2>
             <p>
               {offline.ready
@@ -1670,7 +1708,8 @@ function Parent({
           <section>
             <h2>親子試玩版 v{VERSION}</h2>
             <p>
-              四款遊戲可實際作答，涵蓋全部 37 個注音。此版供家長陪玩與驗證；37
+              十款遊戲可實際作答，涵蓋全部 37
+              個注音及進階拼音、聲調、詞語與記憶。此版供家長陪玩與驗證；37
               音檔逐符號雙人聽校、真機測試及幼兒可用性測試仍待完成。
             </p>
             <p>
@@ -1726,6 +1765,12 @@ function Parent({
               引導、方位及回饋語音使用臺灣華語合成語音（zh-TW-HsiaoChenNeural），預先製成音檔；與教育部素材分開標示，仍待人工聽校。小兔及介面圖形為本專案原創。
             </p>
             <p>
+              進階遊戲使用固定的 12
+              個生活詞語、四聲對比與詞語末音題庫；完整讀音為預製臺灣華語合成音，不將單符號錄音拼接成音節。聲調依教育部標注規則呈現；12
+              張詞語圖卡為本專案原創
+              SVG。完整音節、輕聲與連續語流仍需臺灣華語教學者雙人聽校。
+            </p>
+            <p>
               發現讀音或方位問題時，請先停止該模式並告知維護者。這裡沒有自動傳送或聯絡表單。
             </p>
           </section>
@@ -1735,8 +1780,8 @@ function Parent({
         <Modal title="清除學習紀錄">
           <h2>確定清除全部紀錄？</h2>
           <p>
-            將清除本裝置的注音引入、作答紀錄與貼紙，題數設定恢復為每回合 5
-            題。建議先匯出；這個操作無法復原。
+            將清除本裝置的注音、詞語與聲調引入、作答紀錄與貼紙，題數設定恢復為每回合
+            5 題。建議先匯出；這個操作無法復原。
           </p>
           <Button secondary onClick={() => setConfirm(false)}>
             保留紀錄

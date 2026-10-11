@@ -25,5 +25,5 @@ export const SYMBOLS: SymbolInfo[] = Array.from({ length: 37 }, (_, i) => ({
 export const symbol = (id: string) => SYMBOLS.find((s) => s.id === id)!;
 export const batchSymbols = (batch: number) =>
   SYMBOLS.filter((s) => s.batch === batch).map((s) => s.id);
-export const VERSION = "0.1.2";
+export const VERSION = "0.2.0";
 export const CONTENT_VERSION = "moe-2017-v1";

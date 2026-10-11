@@ -229,6 +229,8 @@ test("離線完整素材、重新開啟與離線語音解碼", async ({
       (_, i) => `symbols/s${String(i + 1).padStart(2, "0")}`,
     );
     clips.push("voice/first", "voice/dir-ul", "voice/abs-8");
+    const advanced = await (await fetch("audio/advanced/texts.json")).json();
+    clips.push(...Object.keys(advanced.phrases).map((key) => `advanced/${key}`));
     for (const name of clips) {
       const r = await fetch(`audio/${name}.mp3`);
       if (!r.ok) return false;
