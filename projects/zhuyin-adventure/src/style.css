@@ -599,24 +599,26 @@ footer p {
   justify-content: space-between;
   font-size: 14px;
 }
-.dots {
-  display: flex;
-  gap: 8px;
+.round-progress {
+  appearance: none;
+  width: 84px;
+  height: 10px;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #e6eee8;
+  color: #2c6b57;
 }
-.dots span {
-  width: 11px;
-  height: 11px;
-  border: 1.5px solid var(--border);
-  border-radius: 50%;
-  background: white;
+.round-progress::-webkit-progress-bar {
+  background: #e6eee8;
 }
-.dots .done {
+.round-progress::-webkit-progress-value {
   background: #2c6b57;
-  border-color: #2c6b57;
+  border-radius: 10px;
 }
-.dots .current {
-  background: #f8dfcf;
-  border-color: #8c3c28;
+.round-progress::-moz-progress-bar {
+  background: #2c6b57;
+  border-radius: 10px;
 }
 .instruction {
   display: flex;

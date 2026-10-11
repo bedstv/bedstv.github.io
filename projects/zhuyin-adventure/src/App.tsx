@@ -23,6 +23,8 @@ import {
   clearProgress,
   recordResult,
   stats,
+  ROUND_QUESTION_OPTIONS,
+  type RoundQuestionCount,
   type Progress,
 } from "./core/storage";
 import {
@@ -230,6 +232,7 @@ export default function App() {
     difficulty: number;
     mode: "guided" | "complete";
     steps: number;
+    questionCount: RoundQuestionCount;
   } | null>(null);
   const writeQueue = useRef(Promise.resolve());
   useEffect(() => {
@@ -261,7 +264,13 @@ export default function App() {
   ) {
     try {
       await audio.unlock();
-      setRoundConfig({ game, difficulty, mode, steps });
+      setRoundConfig({
+        game,
+        difficulty,
+        mode,
+        steps,
+        questionCount: progress.roundQuestions,
+      });
       navigate("/play");
     } catch {
       alert("請再點一次「開始」，開啟遊戲聲音。");
@@ -424,7 +433,9 @@ function Menu({
         <p>
           選一個小冒險！
           <br />
-          <small>一回合 5 題，慢慢玩就好。</small>
+          <small>
+            作答遊戲一回合 {progress.roundQuestions} 題，慢慢玩就好。
+          </small>
         </p>
       </div>
       <section className="game-menu">
@@ -818,7 +829,10 @@ function Setup({
           <Button onClick={() => navigate("/explore")}>先去認識注音</Button>
         </>
       )}
-      <p className="muted centered">每回合 5 題，沒有倒數計時。</p>
+      <p className="muted centered">
+        每回合 {progress.roundQuestions}{" "}
+        題，沒有倒數計時。題數可在家長專區設定。
+      </p>
     </>
   );
 }
@@ -829,6 +843,7 @@ interface RoundProps {
     difficulty: number;
     mode: "guided" | "complete";
     steps: number;
+    questionCount: RoundQuestionCount;
   };
   pool: string[];
   results: Progress["results"];
@@ -998,7 +1013,7 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
   }, [update, roundId, finished]);
   function next() {
     audio.stop();
-    if (questionNumber === 4) {
+    if (questionNumber === config.questionCount - 1) {
       setFinished(true);
       update((p) =>
         p.rounds.includes(roundId)
@@ -1075,21 +1090,15 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
         }}
       />
       <div className="round-meta">
-        <span>第 {questionNumber + 1} / 5 題</span>
-        <div className="dots" aria-label={`已完成 ${questionNumber} 題`}>
-          {[0, 1, 2, 3, 4].map((i) => (
-            <span
-              key={i}
-              className={
-                i < questionNumber
-                  ? "done"
-                  : i === questionNumber
-                    ? "current"
-                    : ""
-              }
-            />
-          ))}
-        </div>
+        <span>
+          第 {questionNumber + 1} / {config.questionCount} 題
+        </span>
+        <progress
+          className="round-progress"
+          aria-label={`已完成 ${questionNumber} / ${config.questionCount} 題`}
+          value={questionNumber}
+          max={config.questionCount}
+        />
         <button
           className="text-button"
           onClick={() => {
@@ -1201,7 +1210,9 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
       <div className="game-controls">
         {run.phase === "completed" ? (
           <Button onClick={next}>
-            {questionNumber === 4 ? "領小花貼紙" : "下一題 →"}
+            {questionNumber === config.questionCount - 1
+              ? "領小花貼紙"
+              : "下一題 →"}
           </Button>
         ) : (
           <>
@@ -1545,6 +1556,33 @@ function Parent({
         </>
       ) : tab === "settings" ? (
         <>
+          <section aria-labelledby="round-questions-title">
+            <h2 id="round-questions-title">每回合題目數</h2>
+            <p>
+              適用於聽音找注音、注音九宮格與指令小隊長；認識注音可自由探索。
+            </p>
+            <div className="option-grid" role="group" aria-label="每回合題目數">
+              {ROUND_QUESTION_OPTIONS.map((count) => (
+                <button
+                  key={count}
+                  className={`option ${progress.roundQuestions === count ? "selected" : ""}`}
+                  aria-pressed={progress.roundQuestions === count}
+                  onClick={() =>
+                    update((p) => ({ ...p, roundQuestions: count }))
+                  }
+                >
+                  {count} 題
+                </button>
+              ))}
+            </div>
+            <p className="muted" role="status">
+              目前每回合 {progress.roundQuestions}{" "}
+              題；設定保留在本裝置，從下一回合生效。
+            </p>
+            <small>
+              建議先從短回合開始，依孩子的精神與興趣增加。隨時可以暫停休息；完成一回合仍獲得一張小花貼紙。
+            </small>
+          </section>
           <section>
             <h2>設定孩子已認識的注音</h2>
             <p>
@@ -1697,7 +1735,8 @@ function Parent({
         <Modal title="清除學習紀錄">
           <h2>確定清除全部紀錄？</h2>
           <p>
-            將清除本裝置的注音引入、作答紀錄與貼紙。建議先匯出；這個操作無法復原。
+            將清除本裝置的注音引入、作答紀錄與貼紙，題數設定恢復為每回合 5
+            題。建議先匯出；這個操作無法復原。
           </p>
           <Button secondary onClick={() => setConfirm(false)}>
             保留紀錄

@@ -1,5 +1,8 @@
 import { openDB } from "idb";
 import type { Game, Question, ResultKind, RunState } from "./rules";
+export const ROUND_QUESTION_OPTIONS = [5, 10, 15, 20, 30] as const;
+export type RoundQuestionCount = (typeof ROUND_QUESTION_OPTIONS)[number];
+export const DEFAULT_ROUND_QUESTIONS: RoundQuestionCount = 5;
 export interface Result {
   id: string;
   round: string;
@@ -20,6 +23,7 @@ export interface Progress {
   results: Result[];
   stickers: number;
   rounds: string[];
+  roundQuestions: RoundQuestionCount;
 }
 export const emptyProgress = (): Progress => ({
   introduced: [],
@@ -27,7 +31,16 @@ export const emptyProgress = (): Progress => ({
   results: [],
   stickers: 0,
   rounds: [],
+  roundQuestions: DEFAULT_ROUND_QUESTIONS,
 });
+export function normalizeProgress(p: Progress): Progress {
+  return {
+    ...p,
+    roundQuestions: ROUND_QUESTION_OPTIONS.includes(p.roundQuestions)
+      ? p.roundQuestions
+      : DEFAULT_ROUND_QUESTIONS,
+  };
+}
 function dbPromise() {
   return openDB("zhuyin-adventure-v1", 1, {
     upgrade(db) {
@@ -36,8 +49,8 @@ function dbPromise() {
   });
 }
 export async function loadProgress(): Promise<Progress> {
-  return (
-    (await (await dbPromise()).get("local", "progress")) ?? emptyProgress()
+  return normalizeProgress(
+    (await (await dbPromise()).get("local", "progress")) ?? emptyProgress(),
   );
 }
 export async function saveProgress(p: Progress) {

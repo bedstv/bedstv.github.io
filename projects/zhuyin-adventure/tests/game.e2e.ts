@@ -252,6 +252,7 @@ test("320px 無橫向捲動、進度清除需二次確認", async ({ page }) => 
   ).toBe(true);
   await page.getByRole("button", { name: "家長：查看進度與設定" }).click();
   await page.getByRole("button", { name: "陪玩設定" }).click();
+  await page.getByRole("button", { name: "20 題", exact: true }).click();
   await page.getByRole("button", { name: "清除全部學習紀錄" }).click();
   await expect(page.getByRole("dialog")).toContainText("確定清除全部紀錄");
   await page.getByRole("button", { name: "保留紀錄" }).click();
@@ -259,6 +260,9 @@ test("320px 無橫向捲動、進度清除需二次確認", async ({ page }) => 
   await page.getByRole("button", { name: "清除全部學習紀錄" }).click();
   await page.getByRole("button", { name: "確定清除", exact: true }).click();
   await expect(page.locator(".selection-grid .introduced")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "5 題", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
   await page.reload();
   await expect(
     page.getByRole("heading", { name: /小耳朵，\s*一起去冒險！/ }),
@@ -277,6 +281,65 @@ test("首頁與家長頁的 WCAG AA 自動檢查", async ({ page }) => {
     .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
     .analyze();
   expect(parentResult.violations).toEqual([]);
+  await page.getByRole("button", { name: "陪玩設定" }).click();
+  const settingsResult = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+    .analyze();
+  expect(settingsResult.violations).toEqual([]);
+});
+
+test("家長題數設定持久化、三款共用、10 題完整回合及 30 題手機進度", async ({
+  page,
+}) => {
+  await page.goto("./");
+  await markAll(page);
+  await page.getByRole("button", { name: "家長：查看進度與設定" }).click();
+  await page.getByRole("button", { name: "陪玩設定" }).click();
+  await page.getByRole("button", { name: "10 題", exact: true }).click();
+  await expect(page.getByText(/目前每回合 10 題/)).toBeVisible();
+  await page.reload();
+  await parent(page);
+  await page.getByRole("button", { name: "陪玩設定" }).click();
+  await expect(
+    page.getByRole("button", { name: "10 題", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "返回", exact: true }).click();
+  await page.getByRole("button", { name: "開始玩", exact: true }).click();
+  await expect(page.getByText(/作答遊戲一回合 10 題/)).toBeVisible();
+  for (const game of ["grid", "command", "match"]) {
+    await page.goto(`./#/setup/${game}`);
+    await expect(page.getByText(/每回合 10 題，沒有倒數計時/)).toBeVisible();
+    await page.getByRole("button", { name: "開始小冒險 →" }).click();
+    await expect(page.locator(".round-meta")).toContainText("第 1 / 10 題");
+  }
+  for (let i = 1; i <= 10; i++) {
+    await expect(page.locator(".round-meta")).toContainText(`第 ${i} / 10 題`);
+    await ready(page);
+    await page.getByRole("button", { name: "這題先略過" }).click();
+  }
+  await expect(page.getByText("小冒險完成！", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "回遊戲選單" }).click();
+  await page.getByRole("button", { name: "家長：查看進度與設定" }).click();
+  await expect(page.locator(".summary-card")).toContainText(
+    "獨立完成 0 / 10 題",
+  );
+  await expect(
+    page.locator(".metrics > div").nth(1).locator("strong"),
+  ).toHaveText("1");
+  await page.getByRole("button", { name: "陪玩設定" }).click();
+  await page.getByRole("button", { name: "30 題", exact: true }).click();
+  await page.setViewportSize({ width: 320, height: 568 });
+  await page.goto("./#/setup/grid");
+  await page.getByRole("button", { name: "九格・四方向", exact: true }).click();
+  await page.getByRole("button", { name: "開始小冒險 →" }).click();
+  await ready(page);
+  await expect(page.locator(".round-meta")).toContainText("第 1 / 30 題");
+  await expect(page.getByRole("progressbar")).toHaveAttribute("max", "30");
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });
 
 test("320×568 九宮格的選項與重聽／提示可直接操作", async ({ page }) => {

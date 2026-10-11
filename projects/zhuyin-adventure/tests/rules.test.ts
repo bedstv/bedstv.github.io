@@ -10,7 +10,13 @@ import {
   ALL_DIRS,
   type Game,
 } from "../src/core/rules";
-import { recordResult, stats, emptyProgress } from "../src/core/storage";
+import {
+  recordResult,
+  stats,
+  emptyProgress,
+  normalizeProgress,
+  ROUND_QUESTION_OPTIONS,
+} from "../src/core/storage";
 const pool = SYMBOLS.map((s) => s.id);
 describe("37 個注音與題庫生成", () => {
   it("完整且唯一：21 聲母、13 韻母、3 介音組", () => {
@@ -161,6 +167,28 @@ describe("指令順序與重複操作", () => {
   });
 });
 describe("進度統計與中斷恢復", () => {
+  it("舊紀錄及不合法題數恢復為 5 題，保留原有學習紀錄", () => {
+    const { roundQuestions: _, ...legacy } = {
+      ...emptyProgress(),
+      introduced: ["s01"],
+      stickers: 3,
+    };
+    for (const value of [undefined, 0, -1, 6, 100, "10", NaN]) {
+      const migrated = normalizeProgress({
+        ...legacy,
+        roundQuestions: value,
+      } as unknown as ReturnType<typeof emptyProgress>);
+      expect(migrated.roundQuestions).toBe(5);
+      expect(migrated.introduced).toEqual(["s01"]);
+      expect(migrated.stickers).toBe(3);
+    }
+    for (const roundQuestions of ROUND_QUESTION_OPTIONS) {
+      expect(
+        normalizeProgress({ ...emptyProgress(), roundQuestions })
+          .roundQuestions,
+      ).toBe(roundQuestions);
+    }
+  });
   it("完成覆蓋預存中斷；重複完成不灌分", () => {
     const q = makeQuestion("match", pool, 0, 999);
     let p = recordResult(emptyProgress(), q, initialRun(), "interrupted", "r1");
