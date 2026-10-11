@@ -1,0 +1,87 @@
+import { openDB } from "idb";
+import type { Game, Question, ResultKind, RunState } from "./rules";
+export interface Result {
+  id: string;
+  round: string;
+  game: Game;
+  target: string;
+  difficulty: number;
+  mode: string;
+  steps: number;
+  kind: ResultKind;
+  mistakes: number;
+  replays: number;
+  hint: number;
+  time: number;
+}
+export interface Progress {
+  introduced: string[];
+  listens: Record<string, number>;
+  results: Result[];
+  stickers: number;
+  rounds: string[];
+}
+export const emptyProgress = (): Progress => ({
+  introduced: [],
+  listens: {},
+  results: [],
+  stickers: 0,
+  rounds: [],
+});
+function dbPromise() {
+  return openDB("zhuyin-adventure-v1", 1, {
+    upgrade(db) {
+      db.createObjectStore("local");
+    },
+  });
+}
+export async function loadProgress(): Promise<Progress> {
+  return (
+    (await (await dbPromise()).get("local", "progress")) ?? emptyProgress()
+  );
+}
+export async function saveProgress(p: Progress) {
+  await (await dbPromise()).put("local", p, "progress");
+}
+export async function clearProgress() {
+  await (await dbPromise()).clear("local");
+}
+export function recordResult(
+  p: Progress,
+  q: Question,
+  s: RunState,
+  kind: ResultKind,
+  round: string,
+): Progress {
+  const previous = p.results.find((r) => r.id === q.id);
+  if (previous && previous.kind !== "interrupted") return p;
+  const result: Result = {
+    id: q.id,
+    round,
+    game: q.game,
+    target: q.target,
+    difficulty: q.difficulty,
+    mode: q.mode,
+    steps: q.steps.length,
+    kind,
+    mistakes: s.mistakes,
+    replays: s.replays,
+    hint: s.hint,
+    time: Date.now(),
+  };
+  return {
+    ...p,
+    results: [...p.results.filter((r) => r.id !== q.id), result].slice(-1000),
+  };
+}
+export function stats(results: Result[]) {
+  const effective = results.filter((r) => r.kind !== "interrupted");
+  const independent = effective.filter((r) => r.kind === "independent").length;
+  return {
+    effective: effective.length,
+    independent,
+    percent: effective.length
+      ? Math.round((independent / effective.length) * 100)
+      : null,
+  };
+}
