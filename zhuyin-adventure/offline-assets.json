@@ -1,10 +1,10 @@
 {
-  "version": "cdf1fdd54006",
+  "version": "fdcfbf5571d0",
   "count": 117,
   "assets": [
     {
-      "url": "assets/index-C9yOe5a8.js",
-      "sha": "c14ce3241c24195aaec5cd588de88e0fc46f688ec3705c3fce7363217ea98d9a"
+      "url": "assets/index-Csm5jRS0.js",
+      "sha": "2ed39a4f9a084c0faeb4543acf7ba19b97ab26b2f5723f027377d7e1ec3cb93e"
     },
     {
       "url": "assets/index-DK9qP0-Q.css",
@@ -456,7 +456,7 @@
     },
     {
       "url": "index.html",
-      "sha": "9fc734dcc3aff16e25c09816dd6a6a1691ece2a611fbe88182e8db980d44b599"
+      "sha": "5f3b28dfd0deb214159c13d2441a9bf218286b2b68ce06815df27317c34fbda3"
     },
     {
       "url": "licenses/Noto-OFL.txt",

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { SYMBOLS } from "../src/data/symbols";
+import { SYMBOLS, batchSymbols } from "../src/data/symbols";
 import {
   makeQuestion,
   adjacent,
@@ -196,4 +196,22 @@ describe("進度統計與中斷恢復", () => {
     });
     expect(stats([]).percent).toBeNull();
   });
+});
+
+it("九個分組可完整選到 37 個注音，首末組對應顯示編號", () => {
+  expect(
+    batchSymbols(1)
+      .map((id) => SYMBOLS.find((s) => s.id === id)!.glyph)
+      .join(""),
+  ).toBe("ㄅㄆㄇㄈ");
+  expect(
+    batchSymbols(9)
+      .map((id) => SYMBOLS.find((s) => s.id === id)!.glyph)
+      .join(""),
+  ).toBe("ㄣㄤㄥ");
+  expect(
+    Array.from({ length: 9 }, (_, i) => batchSymbols(i + 1))
+      .flat()
+      .sort(),
+  ).toEqual(SYMBOLS.map((s) => s.id).sort());
 });

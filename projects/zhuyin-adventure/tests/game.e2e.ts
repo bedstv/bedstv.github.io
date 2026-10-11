@@ -64,7 +64,10 @@ test("手機首頁、37 字形、實際聽音及引入持久化", async ({ page 
       imgs.every((i) => (i as HTMLImageElement).naturalWidth > 0),
     );
   expect(loaded).toBe(true);
+  await page.getByRole("button", { name: "第 1 組", exact: true }).click();
+  await expect(page.locator(".catalog button")).toHaveCount(4);
   await page.getByRole("button", { name: "ㄅ，尚未認識" }).click();
+  await expect(page.getByText("聲母・第 1 組")).toBeVisible();
   for (let i = 0; i < 2; i++) {
     await page.getByRole("button", { name: "♪ 聽注音" }).click();
     await expect(page.getByRole("button", { name: "♪ 聽注音" })).toBeEnabled();
@@ -194,13 +197,11 @@ test("離線完整素材、重新開啟與離線語音解碼", async ({
 }) => {
   const origin = browserName === "webkit" ? await isolatedOrigin() : null;
   if (origin)
-    test
-      .info()
-      .annotations.push({
-        type: "測試範圍",
-        description:
-          "WebKit 使用伺服器停機驗證快取，非真機斷網；Playwright setOffline 限制 https://github.com/microsoft/playwright/issues/42775",
-      });
+    test.info().annotations.push({
+      type: "測試範圍",
+      description:
+        "WebKit 使用伺服器停機驗證快取，非真機斷網；Playwright setOffline 限制 https://github.com/microsoft/playwright/issues/42775",
+    });
   await page.goto(origin?.url || "./");
   await expect(
     page.getByText("✓ 離線素材已準備好", { exact: true }),
