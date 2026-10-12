@@ -1623,7 +1623,7 @@ function Parent({
                 update((p) => ({ ...p, advancedWords: WORDS.map((w) => w.id) }))
               }
             >
-              我已確認：12 個詞語都學過
+              我已確認：{WORDS.length} 個詞語都學過
             </Button>
             <div className="option-grid tone-settings">
               {TONES.map((t) => (
@@ -1765,8 +1765,9 @@ function Parent({
               引導、方位及回饋語音使用臺灣華語合成語音（zh-TW-HsiaoChenNeural），預先製成音檔；與教育部素材分開標示，仍待人工聽校。小兔及介面圖形為本專案原創。
             </p>
             <p>
-              進階遊戲使用固定的 12
-              個生活詞語、四聲對比與詞語末音題庫；完整讀音為預製臺灣華語合成音，不將單符號錄音拼接成音節。聲調依教育部標注規則呈現；12
+              進階遊戲使用固定的 {WORDS.length}
+              個生活詞語、四聲對比與詞語末音題庫；完整讀音為預製臺灣華語合成音，不將單符號錄音拼接成音節。聲調依教育部標注規則呈現；
+              {WORDS.length}
               張詞語圖卡為本專案原創
               SVG。完整音節、輕聲與連續語流仍需臺灣華語教學者雙人聽校。
             </p>

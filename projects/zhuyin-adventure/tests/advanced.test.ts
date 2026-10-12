@@ -11,6 +11,7 @@ import {
   makeAdvancedQuestion,
   validateAdvancedQuestion,
   requirements,
+  spellingCandidates,
   initialAdvancedAttempt,
   advanceAnswer,
   chooseMemory,
@@ -35,6 +36,41 @@ const config = (
   mode: "guided" | "complete" = "complete",
 ): AdvancedConfig => ({ game, difficulty, mode, questionCount: 5 });
 describe("六款進階題庫", () => {
+  it("入門有八個兩符號一聲詞語；五題不重複，三十題均勻且不連續重複", () => {
+    const cfg = config("train");
+    expect(spellingCandidates(cfg, pool)).toHaveLength(8);
+    for (let seed = 0; seed < 200; seed++) {
+      const recent: string[] = [];
+      for (let n = 0; n < 30; n++) {
+        const q = makeAdvancedQuestion(cfg, pool, seed * 31 + n, recent);
+        expect(word(q.target).parts).toHaveLength(2);
+        expect(word(q.target).tone).toBe(1);
+        expect(q.target).not.toBe(recent.at(-1));
+        recent.push(q.target);
+        if (n < 8) expect(new Set(recent).size).toBe(n + 1);
+      }
+      const counts = spellingCandidates(cfg, pool).map(
+        (w) => recent.filter((id) => id === w.id).length,
+      );
+      expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
+    }
+  });
+  it("只學過雞、貓仍只出這兩詞；學完新詞才擴充，不偷引入", () => {
+    const small = { ...pool, advancedWords: ["cat", "chicken"] };
+    const recent: string[] = [];
+    for (let i = 0; i < 30; i++) {
+      const q = makeAdvancedQuestion(config("train"), small, i, recent);
+      expect(["cat", "chicken"]).toContain(q.target);
+      expect(q.target).not.toBe(recent.at(-1));
+      recent.push(q.target);
+    }
+    expect(spellingCandidates(config("train"), small)).toHaveLength(2);
+    expect(
+      spellingCandidates(config("train", 1), pool).every(
+        (w) => w.parts.length === 2,
+      ),
+    ).toBe(true);
+  });
   for (const game of Object.keys(ADVANCED_GAMES) as AdvancedGame[])
     for (let d = 0; d < 4; d++)
       it(`${game} 難度 ${d}：1,000 種子合法且可重現`, () => {

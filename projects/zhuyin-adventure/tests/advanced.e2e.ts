@@ -29,7 +29,7 @@ async function teachAll(page: Page) {
   await openParent(page);
   await page.getByRole("button", { name: "陪玩設定" }).click();
   await page.getByRole("button", { name: "我已確認：37 個都學過" }).click();
-  await page.getByRole("button", { name: "我已確認：12 個詞語都學過" }).click();
+  await page.getByRole("button", { name: "我已確認：18 個詞語都學過" }).click();
   await page
     .getByRole("button", { name: "我已確認：四聲與輕聲都學過" })
     .click();
@@ -92,6 +92,47 @@ async function solveWithHelp(page: Page, game: AdvancedGame) {
     timeout: 30000,
   });
 }
+test("拼音入門：題庫不足明確提示，學完新增詞語後五題都不同", async ({
+  page,
+}) => {
+  await teachAll(page);
+  for (const label of ["書", "豬", "車", "包", "杯", "山"]) {
+    await page
+      .locator(".parent-word-options button")
+      .filter({ hasText: label })
+      .click();
+  }
+  await page.goto("./#/advanced/train");
+  await expect(page.getByRole("status")).toContainText("目前可出 2 個詞語");
+  await expect(page.getByRole("status")).toContainText("輪流複習");
+  await teachAll(page);
+  await page.goto("./#/advanced/train");
+  await expect(page.getByRole("status")).toContainText("目前可出 8 個詞語");
+  for (const label of ["書", "豬", "車", "包", "杯", "山"]) {
+    const art = page
+      .getByRole("button", {
+        name: `聽${label}的完整讀音，已聽過`,
+        exact: true,
+      })
+      .locator("svg");
+    expect(await art.locator("g > *").count()).toBeGreaterThan(0);
+  }
+  await page.getByRole("button", { name: "開始小冒險 →" }).click();
+  const words: string[] = [];
+  for (let n = 0; n < 5; n++) {
+    await ready(page);
+    words.push(
+      (await page
+        .locator(".train-scene .word-art")
+        .getAttribute("aria-label"))!,
+    );
+    await page.getByRole("button", { name: "這題先略過", exact: true }).click();
+  }
+  expect(new Set(words).size).toBe(5);
+  await expect(
+    page.getByRole("heading", { name: "小冒險完成！", exact: true }),
+  ).toBeVisible();
+});
 for (const game of Object.keys(ADVANCED_GAMES) as AdvancedGame[]) {
   test(`進階 ${ADVANCED_GAMES[game].title}：最高難度真實作答、完整回合與紀錄`, async ({
     page,

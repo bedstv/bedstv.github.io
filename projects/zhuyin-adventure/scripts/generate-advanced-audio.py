@@ -29,7 +29,7 @@ phrases = {
  'teach-tone-3':'第三聲，躺。', 'teach-tone-4':'第四聲，燙。',
  'teach-tone-5':'輕聲，帽子的子，讀得較輕、較短。帽子。',
 }
-words = {'cat':'貓','chicken':'雞','melon':'瓜','flower':'花','fish':'魚','cow':'牛','ball':'球','horse':'馬','dog':'狗','rabbit':'兔','tree':'樹','bean':'豆'}
+words = {'cat':'貓','chicken':'雞','melon':'瓜','flower':'花','fish':'魚','cow':'牛','ball':'球','horse':'馬','dog':'狗','rabbit':'兔','tree':'樹','bean':'豆','book':'書','pig':'豬','car':'車','bun':'包','cup':'杯','mountain':'山'}
 samples={'tang1':'湯','tang2':'糖','tang3':'躺','tang4':'燙','banana':'香蕉','tea':'紅茶','puppy':'小狗','white-rabbit':'白兔','hat':'帽子'}
 phrases.update({'word-'+k:v for k,v in words.items()})
 phrases.update({'tone-'+k:v for k,v in samples.items()})

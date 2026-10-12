@@ -72,6 +72,17 @@ export function eligibleToneSamples(pool: AdvancedPool, difficulty: number) {
       s.parts.every((id) => pool.introduced.includes(id)),
   );
 }
+export function spellingCandidates(config: AdvancedConfig, pool: AdvancedPool) {
+  return eligibleWords(pool).filter((w) =>
+    config.game === "train" && config.difficulty === 0
+      ? w.parts.length === 2 && w.tone === 1
+      : config.game === "train" && config.difficulty === 1
+        ? w.parts.length === 2
+        : config.difficulty === 2
+          ? w.parts.length === 3
+          : w.parts.length >= 2,
+  );
+}
 export function requirements(
   config: AdvancedConfig,
   pool: AdvancedPool,
@@ -105,13 +116,7 @@ export function requirements(
       ? null
       : `需要 ${needed} 個已聽過、注音也已認識的詞語；目前有 ${words.length} 個。`;
   }
-  const selected = words.filter((w) =>
-    difficulty === 0 && game === "train"
-      ? w.parts.length === 2 && w.tone === 1
-      : difficulty === 2
-        ? w.parts.length === 3
-        : w.parts.length >= 2,
-  );
+  const selected = spellingCandidates(config, pool);
   return selected.length && pool.introduced.length >= 3
     ? null
     : "先聽小教室的詞語，並認識其中注音；此難度需有相符的兩格或三格拼音。";
@@ -144,14 +149,16 @@ export function makeAdvancedQuestion(
   }
   const words = eligibleWords(pool);
   if (game === "train" || game === "detective") {
-    const candidates = words.filter((w) =>
-      game === "train" && difficulty === 0
-        ? w.parts.length === 2 && w.tone === 1
-        : difficulty === 2
-          ? w.parts.length === 3
-          : w.parts.length >= 2,
-    );
-    const w = choose(candidates);
+    const candidates = spellingCandidates(config, pool);
+    // 按本回合出現次數抽取：全部可用詞語各出一次後才開始下一輪。
+    const counts = new Map(candidates.map((w) => [w.id, 0]));
+    recent.forEach((id) => {
+      if (counts.has(id)) counts.set(id, counts.get(id)! + 1);
+    });
+    const least = Math.min(...counts.values());
+    const balanced = candidates.filter((w) => counts.get(w.id) === least);
+    const fresh = balanced.filter((w) => w.id !== recent.at(-1));
+    const w = shuffle(fresh.length ? fresh : balanced, random)[0];
     q.target = w.id;
     q.words = [w.id];
     q.parts = w.parts;

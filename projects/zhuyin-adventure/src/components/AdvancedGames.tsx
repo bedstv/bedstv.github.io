@@ -17,6 +17,7 @@ import {
   makeAdvancedQuestion,
   requirements,
   eligibleWords,
+  spellingCandidates,
   initialAdvancedAttempt,
   advanceAnswer,
   chooseMemory,
@@ -102,6 +103,7 @@ export function AdvancedSetup({
     questionCount: progress.roundQuestions,
   };
   const reason = requirements(config, progress);
+  const candidates = spellingCandidates(config, progress);
   async function teach(id: string, isTone = false) {
     if (guard.current) return;
     guard.current = true;
@@ -192,6 +194,22 @@ export function AdvancedSetup({
         {game === "memory" ? "；每題是一組翻牌配對" : "，沒有倒數計時"}
         。家長可調整題數。
       </p>
+      {game === "train" && (
+        <div className="note" role="status">
+          <p>
+            本難度目前可出 {candidates.length} 個詞語
+            {candidates.length > 0
+              ? `：${candidates.map((w) => w.text).join("、")}`
+              : ""}
+            。
+          </p>
+          <p>
+            {candidates.length >= progress.roundQuestions
+              ? "這一回合會先出不同詞語。"
+              : `可用詞語各出一次後才重複；${progress.roundQuestions} 題若多於可用詞語，就會輪流複習。可在下方小教室學習更多符合難度的詞語。`}
+          </p>
+        </div>
+      )}
       {reason ? (
         <div className="note">
           <p>{reason}</p>

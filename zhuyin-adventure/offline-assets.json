@@ -1,14 +1,10 @@
 {
-  "version": "e7f437dd21f3",
-  "count": 166,
+  "version": "b15ecb52492f",
+  "count": 171,
   "assets": [
     {
-      "url": "assets/index-BuTmwR8b.js",
-      "sha": "9ea8ad6996b3e7b3c276e34bb765cf05e339d832c73558050b53c5944ed3b408"
-    },
-    {
-      "url": "assets/index-DJYMtC0F.js",
-      "sha": "7fe68302b5151df9d709154d5a4ee7801032102d471c34eb88b180bce758efd9"
+      "url": "assets/index-BnybBPfu.js",
+      "sha": "65eebf48ae6652eae5803f2204750b047ac2b6d07c1f362f94656cfcc21fdf15"
     },
     {
       "url": "assets/index-P3jyX_OL.css",
@@ -100,7 +96,7 @@
     },
     {
       "url": "audio/advanced/texts.json",
-      "sha": "b4d36668459581416d2be8e682f0002a19c8f7390d6c3f8d1ada0a67b6b7d2f1"
+      "sha": "88fb6459b94555bf6edbed4ae520ce8c47fd0d7376c4abd508badd75d77eb941"
     },
     {
       "url": "audio/advanced/then.mp3",
@@ -167,6 +163,18 @@
       "sha": "677cf5aadfc83f4668962d0635547925a3bea3d36b7bb8fde586ee386ee808cc"
     },
     {
+      "url": "audio/advanced/word-book.mp3",
+      "sha": "ddb691b49718c9a3b8ce0e8da88fa558f57ea2707dfccf281afb828b93eef9ae"
+    },
+    {
+      "url": "audio/advanced/word-bun.mp3",
+      "sha": "03dc9bf225b6a765dcfdee7b293a69a3af9d00fee5251c1e5b483ca3e5187cbc"
+    },
+    {
+      "url": "audio/advanced/word-car.mp3",
+      "sha": "f6c9e8aae423504342c85fbd859a92bcb62344f957655771dee861b773281311"
+    },
+    {
       "url": "audio/advanced/word-cat.mp3",
       "sha": "10b19aace12f34062e7c5746bcaccccfb4e9c71c9b1d0635cca5c3703aa7ecb9"
     },
@@ -177,6 +185,10 @@
     {
       "url": "audio/advanced/word-cow.mp3",
       "sha": "8cf9060fb54c04ddf5040c44877cdcabd33fb7ced3666f5a2a98bf97162c519f"
+    },
+    {
+      "url": "audio/advanced/word-cup.mp3",
+      "sha": "0ea43d7f7f7378336bb3457adfbb271a9ef024e00940556669774a46321fb6c5"
     },
     {
       "url": "audio/advanced/word-dog.mp3",
@@ -197,6 +209,14 @@
     {
       "url": "audio/advanced/word-melon.mp3",
       "sha": "1592e3ecab812626dd2bc43026eb29e96c8555b0920b47f88b85c0d4e9ebdf98"
+    },
+    {
+      "url": "audio/advanced/word-mountain.mp3",
+      "sha": "cfa8fa8f19c91ea9942be65c7d6abb375462ae2c88c0f92ecdc7de957c359a4c"
+    },
+    {
+      "url": "audio/advanced/word-pig.mp3",
+      "sha": "13a082d647d8b94e570574fa4e9356961a17cf2be10c1d597009d025cb2f93eb"
     },
     {
       "url": "audio/advanced/word-rabbit.mp3",
@@ -484,11 +504,11 @@
     },
     {
       "url": "fonts/NotoSansTC-Bold-UI.woff2",
-      "sha": "a27ac450c8e3e3afb8605dade487785ebe5b86faff2465875e1aa491f7a3efcd"
+      "sha": "4026c507bd3a0ef8fab58dd3b17ba0e55afe2c94b77a0ec9d9ffc011517e77a5"
     },
     {
       "url": "fonts/NotoSansTC-Regular-UI.woff2",
-      "sha": "0be8d07acfde8957a386d274a7170fa04e738c79147d70513fe4d8c96aa631be"
+      "sha": "c887964208a11552179894f6379b46e82e5e127592802dc65d70ab22d673a424"
     },
     {
       "url": "glyphs/s01.svg",
@@ -652,7 +672,7 @@
     },
     {
       "url": "index.html",
-      "sha": "4c794deb7d87872d41d7e51a927eb735fa96d28e13bb397ffd5121d386b46a59"
+      "sha": "78459041d3060482bbbb6af240c0c1316d73d2e8ba9d483cdae4674a3ede6e08"
     },
     {
       "url": "licenses/Noto-OFL.txt",

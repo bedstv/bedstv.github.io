@@ -101,6 +101,12 @@ const entries: [string, string, string, number][] = [
   ["rabbit", "兔", "ㄊㄨ", 4],
   ["tree", "樹", "ㄕㄨ", 4],
   ["bean", "豆", "ㄉㄡ", 4],
+  ["book", "書", "ㄕㄨ", 1],
+  ["pig", "豬", "ㄓㄨ", 1],
+  ["car", "車", "ㄔㄜ", 1],
+  ["bun", "包", "ㄅㄠ", 1],
+  ["cup", "杯", "ㄅㄟ", 1],
+  ["mountain", "山", "ㄕㄢ", 1],
 ];
 export const WORDS: Word[] = entries.map(([id, text, parts, tone]) => ({
   id,
