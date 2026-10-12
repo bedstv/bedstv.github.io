@@ -1,4 +1,5 @@
 import { Glyph, Bunny, navigate, Button, Header, Modal } from "./components/ui";
+import { AudioControls } from "./components/AudioControls";
 import { AdvancedSetup, AdvancedRound } from "./components/AdvancedGames";
 import { useAutoAdvance } from "./components/useAutoAdvance";
 import {
@@ -306,18 +307,13 @@ function Home({
         </p>
         <Button
           onClick={() => {
-            void audio.unlock();
+            void audio.unlock().catch(() => {});
             navigate("/menu");
           }}
         >
           開始玩 <span aria-hidden="true">→</span>
         </Button>
-        <button
-          className="text-button"
-          onClick={() => void audio.play(["voice/welcome"]).catch(() => {})}
-        >
-          ♪ 聽小兔說話
-        </button>
+        <AudioControls label="♪ 聽小兔說話" clips={["voice/welcome"]} />
       </section>
       <div className="home-summary">
         <span>
@@ -842,6 +838,8 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
   const [run, dispatch] = useReducer(runReducer, undefined, initialRun);
   const [summary, setSummary] = useState<ResultKind[]>([]);
   const [finished, setFinished] = useState(false);
+  const finishedRef = useRef(finished);
+  finishedRef.current = finished;
   const [completionPaused, setCompletionPaused] = useState(false);
   const [exit, setExit] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
@@ -896,9 +894,8 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
     const started = performance.now();
     void audio
       .play([correct ? "voice/correct" : "voice/retry"])
-      .catch(() => false)
-      .then(() => {
-        if (canceled) return;
+      .then((ok) => {
+        if (canceled || !ok) return;
         timer = setTimeout(
           () => {
             dispatch({
@@ -912,6 +909,9 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
           },
           Math.max(0, 500 - (performance.now() - started)),
         );
+      })
+      .catch(() => {
+        if (!canceled) dispatch({ type: "error" });
       });
     return () => {
       canceled = true;
@@ -931,7 +931,7 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
     const pause = () => {
       if (
         document.hidden &&
-        !finished &&
+        !finishedRef.current &&
         last.current.run.phase !== "completed"
       ) {
         audio.stop();
@@ -970,7 +970,7 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
           ),
         );
     };
-  }, [update, roundId, finished]);
+  }, [update, roundId]);
   function next() {
     if (advanced.current.has(q.id)) return;
     advanced.current.add(q.id);
@@ -1238,13 +1238,18 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
           </p>
           <Button
             onClick={() => {
-              setExit(false);
-              setCompletionPaused(false);
-              if (run.phase !== "completed")
-                void audio
-                  .unlock()
-                  .then(() => dispatch({ type: "resume" }))
-                  .catch(() => dispatch({ type: "error" }));
+              void audio
+                .unlock()
+                .then(() => {
+                  setExit(false);
+                  setCompletionPaused(false);
+                  if (run.phase !== "completed") dispatch({ type: "resume" });
+                })
+                .catch(() => {
+                  setExit(false);
+                  setCompletionPaused(false);
+                  dispatch({ type: "error" });
+                });
             }}
           >
             繼續遊戲
@@ -1267,6 +1272,17 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
             }}
           >
             再試一次
+          </Button>
+          <Button
+            secondary
+            onClick={() =>
+              void audio
+                .reset()
+                .then(() => dispatch({ type: "resume" }))
+                .catch(() => dispatch({ type: "error" }))
+            }
+          >
+            重新啟用聲音
           </Button>
           <Button secondary onClick={leave}>
             回選單
@@ -1677,18 +1693,13 @@ function Parent({
                 : "離線素材正在準備，完成前請保持網路連線。"}
             </p>
             {offline.error && <p className="warning">{offline.error}</p>}
-            <Button
-              secondary
-              onClick={() =>
-                void audio
-                  .play(["symbols/s01", "voice/direction-help"])
-                  .catch(() => {})
-              }
-            >
-              ♪ 測試注音與指令聲音
-            </Button>
+            <AudioControls
+              label="♪ 測試注音與指令聲音"
+              clips={["symbols/s01", "voice/direction-help"]}
+            />
             <p>
-              iPhone／iPad：先點一次開始或喇叭解鎖音效，確認裝置音量。Safari
+              iPhone／iPad：先點喇叭或「重新啟用聲音」，再提高媒體音量並檢查藍牙或耳機輸出。若仍聽不到，關閉這個分頁，用
+              Safari 新分頁重新開啟。舊版 Safari 可能仍需關閉靜音模式。Safari
               可從分享選單「加入主畫面」；Android Chrome
               可從選單安裝。第一次完整開啟並顯示「離線素材已準備好」後，再離線使用。
             </p>

@@ -387,6 +387,8 @@ export function AdvancedRound({
     setSummary((s) => [...s, advancedKind(state, skip)]);
   }
   function instructionClips(state = attemptRef.current) {
+    if (q.game !== "memory" && state.step >= q.answers.length)
+      return ["voice/correct"];
     if (q.game === "treasure" && config.mode === "guided")
       return state.step === 0
         ? [
@@ -1003,7 +1005,20 @@ export function AdvancedRound({
         )}
       </div>
       {phase === "error" && (
-        <Button onClick={() => listen(true)}>重新播放聲音</Button>
+        <>
+          <Button onClick={() => listen(true)}>重新播放聲音</Button>
+          <Button
+            secondary
+            onClick={() =>
+              void audio
+                .reset()
+                .then(() => listen(true))
+                .catch(() => setError("聲音未能啟動，請再點一次重新啟用聲音。"))
+            }
+          >
+            重新啟用聲音
+          </Button>
+        </>
       )}
       {phase !== "completed" && (
         <button
@@ -1024,10 +1039,20 @@ export function AdvancedRound({
           </p>
           <Button
             onClick={() => {
-              setExit(false);
-              setCompletionPaused(false);
-              if (recorded.current.has(q.id)) changePhase("completed");
-              else listen();
+              void audio
+                .unlock()
+                .then(() => {
+                  setExit(false);
+                  setCompletionPaused(false);
+                  if (recorded.current.has(q.id)) changePhase("completed");
+                  else listen();
+                })
+                .catch(() => {
+                  setExit(false);
+                  setCompletionPaused(false);
+                  setError("聲音未能啟動，請重新啟用聲音。");
+                  changePhase("error");
+                });
             }}
           >
             繼續這一題

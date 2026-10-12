@@ -1,5 +1,5 @@
 {
-  "version": "cb342d29ef8d",
+  "version": "c7771be9138d",
   "count": 171,
   "assets": [
     {
@@ -7,8 +7,8 @@
       "sha": "7bd9a39cf8e25afc7a1b5c6a5be5b463d45ca1205784884f197891e4b002b827"
     },
     {
-      "url": "assets/index-DJXyWDL-.js",
-      "sha": "2e021aed7aa81f4b2abe8a1be5c7588e96e050d12e8b664803b781de0227bdb5"
+      "url": "assets/index-Xr7044cZ.js",
+      "sha": "908385e6c6172b375ebf71805bea279b0bc465ab5c508e328b0944af2d5d63c1"
     },
     {
       "url": "audio/advanced/detective-help.mp3",
@@ -504,11 +504,11 @@
     },
     {
       "url": "fonts/NotoSansTC-Bold-UI.woff2",
-      "sha": "58769dbe8f1814b9fe4066f79b59c81b887f4f0e0ad2629086119bbdab60f741"
+      "sha": "f6bb4d827f82c82e98ed6e4b9299eaa07582155446667111c8dfd6547bd08b2a"
     },
     {
       "url": "fonts/NotoSansTC-Regular-UI.woff2",
-      "sha": "86b2f67d5a766493a01cb481b3426aa35fc5920f08cb0bf8a7c44fcff39c7f5e"
+      "sha": "120f879e58e30ab895e4c705b9501573bf4f5c201155ca0c5267787552ab0fe7"
     },
     {
       "url": "glyphs/s01.svg",
@@ -672,7 +672,7 @@
     },
     {
       "url": "index.html",
-      "sha": "88fd08842888ca8f5b3c811ea41022889b0406796554742d6b9d7d5c2cba0ed2"
+      "sha": "ff2ef58c6834938070f7157be865a895dc7dd38b6dc2141a0621eb7abb7d85b7"
     },
     {
       "url": "licenses/Noto-OFL.txt",
