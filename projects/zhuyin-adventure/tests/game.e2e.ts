@@ -25,6 +25,7 @@ async function ready(page: Page) {
   });
 }
 async function supportFinish(page: Page, steps = 1) {
+  const before = await page.locator(".round-meta").innerText();
   for (let i = 0; i < steps; i++) {
     await ready(page);
     await page.getByRole("button", { name: "小兔幫幫我" }).click();
@@ -33,9 +34,19 @@ async function supportFinish(page: Page, steps = 1) {
     if (i < steps - 1)
       await expect(page.locator(".step-progress")).toContainText("✓");
   }
+  await expect
+    .poll(
+      async () =>
+        (await page
+          .getByRole("heading", { name: "小冒險完成！", exact: true })
+          .isVisible()) ||
+        (await page.locator(".round-meta").innerText()) !== before,
+      { timeout: 30000 },
+    )
+    .toBe(true);
   await expect(
     page.getByRole("button", { name: /下一題|領小花貼紙/ }),
-  ).toBeVisible();
+  ).toHaveCount(0);
 }
 
 test("手機首頁、37 字形、實際聽音及引入持久化", async ({ page }) => {
@@ -98,12 +109,10 @@ test("三款作答遊戲、錯答、獎勵與分開紀錄", async ({ page }) => 
   await page.getByRole("button", { name: "♪ 再聽一次" }).click();
   await ready(page);
   await page.locator(".board .hinted").click();
-  await expect(page.getByRole("button", { name: "下一題 →" })).toBeVisible();
+  await expect(page.locator(".round-meta")).toContainText("第 2 / 5 題");
   for (let i = 1; i < 5; i++) {
-    await page.getByRole("button", { name: "下一題 →" }).click();
     await supportFinish(page);
   }
-  await page.getByRole("button", { name: "領小花貼紙" }).click();
   await expect(
     page.getByRole("heading", { name: "送你一朵小花！" }),
   ).toBeVisible();
@@ -230,7 +239,9 @@ test("離線完整素材、重新開啟與離線語音解碼", async ({
     );
     clips.push("voice/first", "voice/dir-ul", "voice/abs-8");
     const advanced = await (await fetch("audio/advanced/texts.json")).json();
-    clips.push(...Object.keys(advanced.phrases).map((key) => `advanced/${key}`));
+    clips.push(
+      ...Object.keys(advanced.phrases).map((key) => `advanced/${key}`),
+    );
     for (const name of clips) {
       const r = await fetch(`audio/${name}.mp3`);
       if (!r.ok) return false;

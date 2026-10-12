@@ -1075,3 +1075,15 @@ section + section {
     border-radius: 16px;
   }
 }
+
+.auto-next {
+  grid-column: 1 / -1;
+  min-height: 56px;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  color: #285f4e;
+  font-weight: 700;
+}

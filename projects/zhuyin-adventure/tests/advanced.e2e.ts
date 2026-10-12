@@ -1,5 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
-import { ADVANCED_GAMES, type AdvancedGame } from "../src/data/advanced";
+import { ADVANCED_GAMES, WORDS, type AdvancedGame } from "../src/data/advanced";
 test.describe.configure({ mode: "parallel" });
 async function canContinue(page: Page) {
   return page
@@ -8,13 +8,23 @@ async function canContinue(page: Page) {
       buttons.some(
         (b) =>
           !(b as HTMLButtonElement).disabled &&
-          /小兔幫幫我|下一題|領小花貼紙/.test(b.textContent || ""),
+          /小兔幫幫我/.test(b.textContent || ""),
       ),
     );
 }
 
 async function openParent(page: Page) {
   await page.getByRole("button", { name: /家長專區|家長：查看/ }).click();
+  await expect
+    .poll(
+      async () =>
+        (await page.getByRole("dialog").isVisible()) ||
+        (await page
+          .getByRole("heading", { name: "家長專區", exact: true })
+          .isVisible()),
+    )
+    .toBe(true);
+  if (!(await page.getByRole("dialog").isVisible())) return;
   const dialog = page.getByRole("dialog"),
     match = (await dialog.innerText()).match(/(\d+) \+ (\d+)/);
   if (match) {
@@ -46,6 +56,77 @@ async function help(page: Page) {
   }
   await ready(page);
 }
+for (const original of [true, false]) {
+  test(`自動換題：${original ? "聽音找注音" : "聲調氣球"} 完成後暫停不跳題，繼續只推進一次`, async ({
+    page,
+  }) => {
+    await teachAll(page);
+    await page.goto(original ? "./#/menu" : "./#/advanced/tone");
+    if (original)
+      await page.getByRole("button", { name: /聽音找注音/ }).click();
+    await page.getByRole("button", { name: "開始小冒險 →" }).click();
+    await help(page);
+    await page
+      .locator(original ? ".board button.hinted" : ".tone-board button.hinted")
+      .click();
+    await page.waitForFunction(
+      () => document.querySelector(".auto-next") !== null,
+      undefined,
+      { timeout: 30000 },
+    );
+    await page.getByRole("button", { name: "暫停", exact: true }).click();
+    await expect(page.getByRole("dialog")).toContainText("這題已完成");
+    await page.waitForTimeout(1000);
+    await expect(page.locator(".round-meta")).toContainText("第 1 / 5 題");
+    await page
+      .getByRole("button", {
+        name: original ? "繼續遊戲" : "繼續這一題",
+        exact: true,
+      })
+      .click();
+    await expect(page.locator(".round-meta")).toContainText("第 2 / 5 題");
+    await ready(page);
+    await expect(page.locator(".round-meta")).toContainText("第 2 / 5 題");
+    await expect(
+      page.getByRole("button", { name: /下一題|領小花貼紙/ }),
+    ).toHaveCount(0);
+    await page.getByRole("button", { name: "返回", exact: true }).click();
+    await page.getByRole("button", { name: "回遊戲選單", exact: true }).click();
+    await openParent(page);
+    if (original)
+      await expect(page.locator(".summary-card")).toContainText(
+        "獨立完成 0 / 1 題",
+      );
+    else
+      await expect(
+        page.locator(".advanced-stats > div").filter({ hasText: "聲調氣球" }),
+      ).toContainText("獨立 0 / 1 題");
+  });
+}
+async function answerHinted(page: Page) {
+  const before = await page.locator(".round-meta").innerText();
+  for (let i = 0; i < 5; i++) {
+    if (
+      (await page.locator(".round-meta").innerText()) !== before ||
+      (await page.locator(".auto-next").isVisible())
+    )
+      break;
+    await ready(page);
+    await page.locator(".advanced-play button.hinted").click();
+    await expect
+      .poll(
+        async () =>
+          (await page.locator(".auto-next").isVisible()) ||
+          (await page.locator(".round-meta").innerText()) !== before ||
+          (await canContinue(page)),
+        { timeout: 30000 },
+      )
+      .toBe(true);
+  }
+  await expect(page.locator(".round-meta")).not.toHaveText(before, {
+    timeout: 30000,
+  });
+}
 async function solveWithHelp(page: Page, game: AdvancedGame) {
   await help(page);
   if (game === "memory") {
@@ -66,32 +147,12 @@ async function solveWithHelp(page: Page, game: AdvancedGame) {
         await page.getByRole("button", { name, exact: true }).click();
       }
     }
-  } else {
-    for (let i = 0; i < 5; i++) {
-      if (
-        await page
-          .getByRole("button", { name: /下一題|領小花貼紙/ })
-          .isVisible()
-      )
-        break;
-      await ready(page);
-      await page.locator(".advanced-play button.hinted").click();
-      await expect(
-        page
-          .getByRole("button", { name: /小兔幫幫我|下一題|領小花貼紙/ })
-          .filter({ visible: true })
-          .first(),
-      ).toBeVisible();
-      // 正確回饋語音說完才會開放下一步。
-      await expect
-        .poll(async () => canContinue(page), { timeout: 30000 })
-        .toBe(true);
-    }
-  }
-  await expect(page.getByRole("button", { name: "下一題 →" })).toBeVisible({
+  } else await answerHinted(page);
+  await expect(page.locator(".round-meta")).toContainText("第 2 / 5 題", {
     timeout: 30000,
   });
 }
+
 test("拼音入門：題庫不足明確提示，學完新增詞語後五題都不同", async ({
   page,
 }) => {
@@ -126,9 +187,27 @@ test("拼音入門：題庫不足明確提示，學完新增詞語後五題都�
         .locator(".train-scene .word-art")
         .getAttribute("aria-label"))!,
     );
-    await page.getByRole("button", { name: "這題先略過", exact: true }).click();
+    const item = WORDS.find((w) => `${w.text}的圖片` === words.at(-1))!;
+    for (const id of item.parts) {
+      await ready(page);
+      await page
+        .locator(`.advanced-choice-grid button:has(img[src$="/${id}.svg"])`)
+        .click();
+    }
+    if (n < 4)
+      await expect(page.locator(".round-meta")).toContainText(
+        `第 ${n + 2} / 5 題`,
+      );
+    else
+      await expect(
+        page.getByRole("heading", { name: "小冒險完成！", exact: true }),
+      ).toBeVisible();
   }
   expect(new Set(words).size).toBe(5);
+  await expect(page.locator(".result-list")).toContainText("獨立完成");
+  await expect(
+    page.getByRole("button", { name: /下一題|領小花貼紙/ }),
+  ).toHaveCount(0);
   await expect(
     page.getByRole("heading", { name: "小冒險完成！", exact: true }),
   ).toBeVisible();
@@ -173,18 +252,7 @@ for (const game of Object.keys(ADVANCED_GAMES) as AdvancedGame[]) {
       await expect(page.getByRole("button", { name: "下一題 →" })).toHaveCount(
         0,
       );
-      for (let i = 0; i < 5; i++) {
-        if (await page.getByRole("button", { name: "下一題 →" }).isVisible())
-          break;
-        await ready(page);
-        await page.locator(".advanced-play button.hinted").click();
-        await expect
-          .poll(async () => canContinue(page), { timeout: 30000 })
-          .toBe(true);
-      }
-      await expect(
-        page.getByRole("button", { name: "下一題 →" }),
-      ).toBeVisible();
+      await answerHinted(page);
     } else await solveWithHelp(page, game);
     expect(
       await page.evaluate(
@@ -194,7 +262,6 @@ for (const game of Object.keys(ADVANCED_GAMES) as AdvancedGame[]) {
     await page.screenshot({
       path: `test-results/${test.info().project.name}-${game}.png`,
     });
-    await page.getByRole("button", { name: "下一題 →" }).click();
     for (let i = 2; i <= 5; i++) {
       await ready(page);
       await expect(page.locator(".round-meta")).toContainText(`第 ${i} / 5 題`);
@@ -314,7 +381,7 @@ test("進階暫停重做、10 題設定與小商店提示不灌獨立分數", as
     await ready(page);
     await page.locator(".advanced-play button.hinted").click();
   }
-  await expect(page.getByRole("button", { name: "下一題 →" })).toBeVisible();
+  await expect(page.locator(".round-meta")).toContainText("第 2 / 10 題");
   await page.getByRole("button", { name: "返回", exact: true }).click();
   await page.getByRole("button", { name: "回遊戲選單", exact: true }).click();
   await page.getByRole("button", { name: "家長：查看進度與設定" }).click();

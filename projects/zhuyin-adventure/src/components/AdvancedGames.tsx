@@ -32,6 +32,7 @@ import { recordAdvancedResult, type Progress } from "../core/storage";
 import { DIRECTIONS, type ResultKind } from "../core/rules";
 import { Button, Header, Modal, Glyph, Bunny, navigate } from "./ui";
 import { WordArt } from "./WordArt";
+import { useAutoAdvance } from "./useAutoAdvance";
 const BASE = import.meta.env.BASE_URL;
 type Update = (fn: (p: Progress) => Progress) => void;
 const KINDS: Record<ResultKind, string> = {
@@ -192,7 +193,7 @@ export function AdvancedSetup({
       <p className="muted centered">
         每回合 {progress.roundQuestions} 題
         {game === "memory" ? "；每題是一組翻牌配對" : "，沒有倒數計時"}
-        。家長可調整題數。
+        。家長可調整題數。答對後會自動進入下一題，完成最後一題會自動領取貼紙。
       </p>
       {game === "train" && (
         <div className="note" role="status">
@@ -359,6 +360,8 @@ export function AdvancedRound({
     [exit, setExit] = useState(false),
     [error, setError] = useState("");
   const [summary, setSummary] = useState<ResultKind[]>([]);
+  const [completionPaused, setCompletionPaused] = useState(false);
+  const advanced = useRef(new Set<string>());
   const recorded = useRef(new Set<string>()),
     epoch = useRef(0),
     locked = useRef(true);
@@ -442,7 +445,11 @@ export function AdvancedRound({
     };
   }, [q.id]);
   function pause() {
-    if (["completed", "paused"].includes(phaseRef.current)) return;
+    if (phaseRef.current === "completed") {
+      if (!finished) setCompletionPaused(true);
+      return;
+    }
+    if (phaseRef.current === "paused") return;
     epoch.current++;
     audio.stop();
     commit({ ...attemptRef.current, interrupted: true, step: 0 });
@@ -460,6 +467,12 @@ export function AdvancedRound({
       document.removeEventListener("visibilitychange", blur);
     };
   }, [q.id]);
+  useAutoAdvance(
+    phase === "completed" && !finished && !exit && !completionPaused,
+    q.id,
+    next,
+    () => setCompletionPaused(true),
+  );
   async function choose(answer: string) {
     if (locked.current || phaseRef.current !== "answering") return;
     locked.current = true;
@@ -538,6 +551,8 @@ export function AdvancedRound({
     void play(clips, () => changePhase("answering"));
   }
   function next() {
+    if (advanced.current.has(q.id)) return;
+    advanced.current.add(q.id);
     epoch.current++;
     audio.stop();
     if (number + 1 === config.questionCount) {
@@ -615,11 +630,7 @@ export function AdvancedRound({
           max={config.questionCount}
           aria-label={`已完成 ${number} / ${config.questionCount} 題`}
         />
-        <button
-          className="text-button"
-          onClick={pause}
-          disabled={phase === "completed"}
-        >
+        <button className="text-button" onClick={pause}>
           暫停
         </button>
       </div>
@@ -975,9 +986,11 @@ export function AdvancedRound({
       )}
       <div className="game-controls">
         {phase === "completed" ? (
-          <Button onClick={next}>
-            {number + 1 === config.questionCount ? "領小花貼紙" : "下一題 →"}
-          </Button>
+          <p className="auto-next" role="status">
+            {number + 1 === config.questionCount
+              ? "答對了！準備領小花貼紙…"
+              : "答對了！正在前往下一題…"}
+          </p>
         ) : (
           <>
             <Button secondary disabled={!active} onClick={() => listen(true)}>
@@ -1001,13 +1014,18 @@ export function AdvancedRound({
           這題先略過
         </button>
       )}
-      {(phase === "paused" || exit) && (
+      {(phase === "paused" || exit || completionPaused) && (
         <Modal title={exit ? "離開小冒險" : "休息一下"}>
           <h2>{exit ? "先回遊戲選單？" : "眼睛休息一下"}</h2>
-          <p>已完成的題目會保留；繼續時從這一題重新開始，不計為獨立完成。</p>
+          <p>
+            {recorded.current.has(q.id)
+              ? "這題已完成，繼續時會自動進入下一題。"
+              : "已完成的題目會保留；繼續時從這一題重新開始，不計為獨立完成。"}
+          </p>
           <Button
             onClick={() => {
               setExit(false);
+              setCompletionPaused(false);
               if (recorded.current.has(q.id)) changePhase("completed");
               else listen();
             }}

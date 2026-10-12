@@ -1,5 +1,6 @@
 import { Glyph, Bunny, navigate, Button, Header, Modal } from "./components/ui";
 import { AdvancedSetup, AdvancedRound } from "./components/AdvancedGames";
+import { useAutoAdvance } from "./components/useAutoAdvance";
 import {
   ADVANCED_GAMES,
   WORDS,
@@ -782,7 +783,7 @@ function Setup({
       )}
       <p className="muted centered">
         每回合 {progress.roundQuestions}{" "}
-        題，沒有倒數計時。題數可在家長專區設定。
+        題，沒有倒數計時。題數可在家長專區設定。答對後會自動進入下一題，完成最後一題會自動領取貼紙。
       </p>
     </>
   );
@@ -841,9 +842,11 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
   const [run, dispatch] = useReducer(runReducer, undefined, initialRun);
   const [summary, setSummary] = useState<ResultKind[]>([]);
   const [finished, setFinished] = useState(false);
+  const [completionPaused, setCompletionPaused] = useState(false);
   const [exit, setExit] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const recorded = useRef(new Set<string>());
+  const advanced = useRef(new Set<string>());
   const last = useRef({ q, run });
   last.current = { q, run };
   const playLock = useRef(false);
@@ -918,6 +921,12 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
   useEffect(() => {
     if (run.phase === "completed") record(q, run, classify(run));
   }, [run.phase, q, run, record]);
+  useAutoAdvance(
+    run.phase === "completed" && !finished && !exit && !completionPaused,
+    q.id,
+    next,
+    () => setCompletionPaused(true),
+  );
   useEffect(() => {
     const pause = () => {
       if (
@@ -963,6 +972,8 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
     };
   }, [update, roundId, finished]);
   function next() {
+    if (advanced.current.has(q.id)) return;
+    advanced.current.add(q.id);
     audio.stop();
     if (questionNumber === config.questionCount - 1) {
       setFinished(true);
@@ -1054,6 +1065,7 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
           className="text-button"
           onClick={() => {
             audio.stop();
+            if (run.phase === "completed") setCompletionPaused(true);
             dispatch({ type: "pause" });
           }}
         >
@@ -1160,11 +1172,11 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
       </div>
       <div className="game-controls">
         {run.phase === "completed" ? (
-          <Button onClick={next}>
+          <p className="auto-next" role="status">
             {questionNumber === config.questionCount - 1
-              ? "領小花貼紙"
-              : "下一題 →"}
-          </Button>
+              ? "答對了！準備領小花貼紙…"
+              : "答對了！正在前往下一題…"}
+          </p>
         ) : (
           <>
             <Button
@@ -1215,18 +1227,19 @@ function Round({ config, pool, results, update, onDone }: RoundProps) {
           這題先略過
         </button>
       )}
-      {(run.phase === "paused" || exit) && (
+      {(run.phase === "paused" || exit || completionPaused) && (
         <Modal title="暫停遊戲">
           <Bunny small />
           <h2>{exit ? "要回選單嗎？" : "休息一下"}</h2>
           <p>
             {run.phase === "completed"
-              ? "這題已完成，可以繼續下一題或回選單。"
+              ? "這題已完成，繼續時會自動進入下一題。"
               : "這題會記為中斷。繼續時，重新聽完整指令。"}
           </p>
           <Button
             onClick={() => {
               setExit(false);
+              setCompletionPaused(false);
               if (run.phase !== "completed")
                 void audio
                   .unlock()
