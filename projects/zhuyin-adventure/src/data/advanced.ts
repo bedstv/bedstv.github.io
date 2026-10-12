@@ -42,7 +42,7 @@ export const ADVANCED_GAMES = {
     tag: "翻字卡・配聲音",
     icon: "🃏",
     color: "peach",
-    help: "每次翻兩張，找出注音和聲音，或圖片和詞語的配對。",
+    help: "找一張字圖和一張聲音卡，讀音相同就是一對。每張翻開都會念給你聽。",
     levels: [
       "四張・符號配聲音",
       "六張・符號配聲音",

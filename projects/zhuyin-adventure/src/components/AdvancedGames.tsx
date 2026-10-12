@@ -365,6 +365,9 @@ export function AdvancedRound({
   const recorded = useRef(new Set<string>()),
     epoch = useRef(0),
     locked = useRef(true);
+  const failedPlayback = useRef<{ clips: string[]; after: () => void } | null>(
+    null,
+  );
   function commit(s: AdvancedAttempt) {
     attemptRef.current = s;
     setAttempt(s);
@@ -402,6 +405,7 @@ export function AdvancedRound({
   }
   async function play(clips: string[], after: () => void) {
     const ticket = ++epoch.current;
+    failedPlayback.current = null;
     changePhase("loading");
     setError("");
     try {
@@ -409,11 +413,18 @@ export function AdvancedRound({
       if (ok && ticket === epoch.current) after();
     } catch {
       if (ticket === epoch.current) {
+        failedPlayback.current = { clips, after };
         commit({ ...attemptRef.current, interrupted: true });
         setError("聲音暫時無法播放，請連線後重試。");
         changePhase("error");
       }
     }
+  }
+  function retryPlayback() {
+    const failed = failedPlayback.current;
+    commit({ ...attemptRef.current, replays: attemptRef.current.replays + 1 });
+    if (failed) void play(failed.clips, failed.after);
+    else listen();
   }
   function listen(replay = false) {
     if (replay)
@@ -421,6 +432,11 @@ export function AdvancedRound({
         ...attemptRef.current,
         replays: attemptRef.current.replays + 1,
       });
+    if (replay && q.game === "memory" && openRef.current.length) {
+      const card = q.cards!.find((c) => c.id === openRef.current.at(-1))!;
+      void play([card.clip!], () => changePhase("answering"));
+      return;
+    }
     void play(instructionClips(), () => {
       const complete =
         q.game === "memory"
@@ -436,6 +452,7 @@ export function AdvancedRound({
     const initial = initialAdvancedAttempt();
     commit(initial);
     memoryState([], []);
+    failedPlayback.current = null;
     changePhase("loading");
     update((p) =>
       recordAdvancedResult(p, q, { ...initial, interrupted: true }, round),
@@ -454,6 +471,7 @@ export function AdvancedRound({
     if (phaseRef.current === "paused") return;
     epoch.current++;
     audio.stop();
+    failedPlayback.current = null;
     commit({ ...attemptRef.current, interrupted: true, step: 0 });
     memoryState([], []);
     changePhase("paused");
@@ -517,7 +535,6 @@ export function AdvancedRound({
     const card = q.cards!.find((c) => c.id === id)!;
     const clips = card.clip ? [card.clip] : [];
     if (outcome.outcome === "match") clips.push("voice/correct");
-    if (outcome.outcome === "miss") clips.push("voice/retry");
     await play(clips, () => {
       if (outcome.outcome === "miss") {
         commit({
@@ -657,7 +674,9 @@ export function AdvancedRound({
                           ? "找最後一個字的聲調"
                           : `點第 ${attempt.step + 1} 個聲調`
                         : q.game === "memory"
-                          ? "翻兩張，找一對"
+                          ? phase === "memory-miss"
+                            ? "還不是一對，記住位置再找找"
+                            : "找一張字圖，再找相同讀音的聲音卡"
                           : `帶小兔走第 ${attempt.step + 1} 步`}
           </h2>
           {q.game === "treasure" && attempt.hints > 0 && (
@@ -862,6 +881,7 @@ export function AdvancedRound({
         <>
           <div className="memory-meta">
             已找到 {matched.length} / {q.cards!.length / 2} 對
+            <p>一張字圖＋一張聲音，讀音相同就是一對。每張翻開都會念給你聽。</p>
           </div>
           <div
             className={`memory-board ${q.cards!.length === 4 ? "four" : q.cards!.length === 6 ? "six" : ""}`}
@@ -911,7 +931,9 @@ export function AdvancedRound({
                   ) : (
                     <>
                       <span aria-hidden="true">✿</span>
-                      <small>{i + 1}</small>
+                      <small>
+                        {i + 1} · {card.kind === "sound" ? "♪ 聲音" : "字圖"}
+                      </small>
                     </>
                   )}
                 </button>
@@ -945,7 +967,7 @@ export function AdvancedRound({
                   );
                 }}
               >
-                ♪ 重聽這張聲音卡
+                ♪ 重聽這張卡
               </Button>
             )}
         </>
@@ -1006,13 +1028,13 @@ export function AdvancedRound({
       </div>
       {phase === "error" && (
         <>
-          <Button onClick={() => listen(true)}>重新播放聲音</Button>
+          <Button onClick={retryPlayback}>重新播放聲音</Button>
           <Button
             secondary
             onClick={() =>
               void audio
                 .reset()
-                .then(() => listen(true))
+                .then(retryPlayback)
                 .catch(() => setError("聲音未能啟動，請再點一次重新啟用聲音。"))
             }
           >

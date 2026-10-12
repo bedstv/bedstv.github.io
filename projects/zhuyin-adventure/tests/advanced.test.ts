@@ -213,6 +213,19 @@ describe("順序、翻牌與紀錄", () => {
     const c = q.cards!.find((c) => c.pair !== a.pair)!;
     expect(chooseMemory(q.cards!, [], [a.id], c.id).outcome).toBe("miss");
   });
+  it("翻翻樂四種難度的每張字圖及聲音卡都播放同一個正確讀音", () => {
+    for (let difficulty = 0; difficulty < 4; difficulty++) {
+      const q = makeAdvancedQuestion(config("memory", difficulty), pool, 123);
+      for (const card of q.cards!) {
+        expect(card.clip).toBeTruthy();
+        const partner = q.cards!.find(
+          (c) => c.pair === card.pair && c.id !== card.id,
+        )!;
+        expect(card.clip).toBe(partner.clip);
+        expect(card.kind === "sound").not.toBe(partner.kind === "sound");
+      }
+    }
+  });
   it("舊版資料保留題數與學習紀錄，新欄位補空陣列", () => {
     const {
       advancedWords: _,

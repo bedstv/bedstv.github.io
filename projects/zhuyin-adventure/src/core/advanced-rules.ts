@@ -274,6 +274,7 @@ export function makeAdvancedQuestion(
           pair,
           kind: difficulty === 3 ? "picture" : "symbol",
           value: pair,
+          clip: difficulty === 3 ? wordClip(pair) : `symbols/${pair}`,
         },
         {
           id: `${i}-sound`,
