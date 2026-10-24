@@ -1,10 +1,10 @@
 {
-  "version": "debe0aaed2ef",
-  "count": 171,
+  "version": "02faa3511c9f",
+  "count": 172,
   "assets": [
     {
       "url": "assets/index-BizQtHvF.js",
-      "sha": "debe0aaed2efe45c2affb66831d0923f8b95d2ecfd26e0cb570e92b79e62b953"
+      "sha": "64f1acb1f2be2e737890b50f7b3c18a4b41beae1f9a9a870574976e96e32c9fd"
     },
     {
       "url": "assets/index-CvmZauK8.css",
@@ -685,6 +685,10 @@
     {
       "url": "manifest.webmanifest",
       "sha": "9aabad5d5e0f4d50468d72fa0c2043bf224a98a6930527ca0516a91473fde404"
+    },
+    {
+      "url": "release.json",
+      "sha": "9893a558f6fc7c6584e5a02887ef2007e5dbed9750131d8a888a448de12c2b0b"
     }
   ]
 }
