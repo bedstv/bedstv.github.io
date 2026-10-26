@@ -2,13 +2,13 @@
   "schema_version": 1,
   "kind": "audited-static-dist-only",
   "source_repository": "bedstv/global-food-map",
-  "source_commit": "106aa587238d9ab26d3d5783ade600ca4a328512",
+  "source_commit": "c870fa9aec67b38b620deb66818d46ca7988e579",
   "data_version": "25f56b8895ebf7455bda3f77bbe1a471794e632a7621361c9d598ed396569fc8",
   "files": [
     {
-      "path": "assets/index-DphDZu4e.js",
-      "bytes": 417620,
-      "sha256": "aa86d078c1dccbc01a8bfb7be8afe6fc91c5103fcb19d85f68173bd4c622683b"
+      "path": "assets/index-DbJo_qa0.js",
+      "bytes": 417618,
+      "sha256": "4766125c0c0abb68306d04c45cb5009fa596a216f6ad1bd2bd488071119baa3e"
     },
     {
       "path": "assets/index-zOvLRrLu.css",
@@ -53,7 +53,7 @@
     {
       "path": "index.html",
       "bytes": 1053,
-      "sha256": "0da82cc68c6a88c4e7165932e94025263f596e6af833f43d3b8d61a28e7b4b89"
+      "sha256": "02f06eb6b2b5e3095fe5794fa120de45400178728589939eb03d6e37134008cd"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
