@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "data_version": "25f56b8895ebf7455bda3f77bbe1a471794e632a7621361c9d598ed396569fc8",
+  "data_version": "84ad057a98075b55c6efe8857c271a15cc27ab618ec21a8e0694a8b100b482b7",
   "files": [
     {
       "name": "places.csv",
@@ -14,8 +14,8 @@
     },
     {
       "name": "featured-routes.json",
-      "sha256": "60a626c28e0d14277608e17cfae42f37910809b5af286bbf376ba79b9e831fef",
-      "bytes": 683
+      "sha256": "19eec080b24be60c21c13e6936d0b7f0e0521b905a7645522b479651331ea0d6",
+      "bytes": 33
     }
   ]
 }
