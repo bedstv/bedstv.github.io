@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "kind": "audited-static-dist-only",
+  "source_repository": "bedstv/global-food-map",
+  "source_commit": "5421e48672d7a106ebbefccecb8931a71bf39c19",
+  "data_version": "84ad057a98075b55c6efe8857c271a15cc27ab618ec21a8e0694a8b100b482b7",
+  "files": [
+    {
+      "path": "assets/index-CcFyF_qa.js",
+      "bytes": 414346,
+      "sha256": "c53780ebc21659432f0fbec4a141b70253854d5d3024eb34ee8c0489ff871f4e"
+    },
+    {
+      "path": "assets/index-moOy51sA.css",
+      "bytes": 32299,
+      "sha256": "7eb9a1ac8171dc89ad36665d959c75f2819de4a17b9b3f8b939560cfbb3528c0"
+    },
+    {
+      "path": "data/data-version.json",
+      "bytes": 574,
+      "sha256": "3d628b214af52e50fa42e6129a95286d024e26361d4789ecdf558992fdd37512"
+    },
+    {
+      "path": "data/featured-routes.json",
+      "bytes": 33,
+      "sha256": "19eec080b24be60c21c13e6936d0b7f0e0521b905a7645522b479651331ea0d6"
+    },
+    {
+      "path": "data/places.csv",
+      "bytes": 19010,
+      "sha256": "d6d41cae06f5bda4dffabbb69c6727e7ad80fc3d1071ee3d0a3793fda8e6d8f4"
+    },
+    {
+      "path": "data/releases/84ad057a98075b55c6efe8857c271a15cc27ab618ec21a8e0694a8b100b482b7/featured-routes.json",
+      "bytes": 33,
+      "sha256": "19eec080b24be60c21c13e6936d0b7f0e0521b905a7645522b479651331ea0d6"
+    },
+    {
+      "path": "data/releases/84ad057a98075b55c6efe8857c271a15cc27ab618ec21a8e0694a8b100b482b7/places.csv",
+      "bytes": 19010,
+      "sha256": "d6d41cae06f5bda4dffabbb69c6727e7ad80fc3d1071ee3d0a3793fda8e6d8f4"
+    },
+    {
+      "path": "data/releases/84ad057a98075b55c6efe8857c271a15cc27ab618ec21a8e0694a8b100b482b7/wishlist.csv",
+      "bytes": 294,
+      "sha256": "bd02f791d59045674e595fcde6b9edbe74cba296391bacfdf6be473979430b7f"
+    },
+    {
+      "path": "data/wishlist.csv",
+      "bytes": 294,
+      "sha256": "bd02f791d59045674e595fcde6b9edbe74cba296391bacfdf6be473979430b7f"
+    },
+    {
+      "path": "index.html",
+      "bytes": 1024,
+      "sha256": "e48b40cacda883da397e129e01d5db6b1a5e5d944b86c4e02c9541b41c5fe080"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 25135,
+      "sha256": "14d5d68dba7721b9e2e68c425ac9274e155c3decf1ee8c66ad8d9e003e1f42e9"
+    }
+  ],
+  "notes": "Public deployment must not include private source, Issues, Git history, secrets or QA material. No site was deployed by this command."
+}
