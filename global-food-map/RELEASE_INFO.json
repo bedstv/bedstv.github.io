@@ -2,18 +2,38 @@
   "schema_version": 1,
   "kind": "audited-static-dist-only",
   "source_repository": "bedstv/global-food-map",
-  "source_commit": "9ac6ce970ed5bf38e9045c8c9545187b516b03d6",
+  "source_commit": "c53a03eb0bdbf7c17e5d7988606d18a788b8ecf3",
   "data_version": "5a68ae84235e92569d39ebb8977253cab75677a46502207bd8a29452fd16db75",
   "files": [
     {
-      "path": "assets/index-BYWZMIhZ.js",
-      "bytes": 418272,
-      "sha256": "dd0dfce96a5351cd6f2f87718e228b3e7cf952409eb651ae1890156088a5b0a1"
+      "path": "assets/index-BcEVoWiZ.js",
+      "bytes": 444232,
+      "sha256": "4f46e40f3aa595eda614179c9be6336762d53533f9e1b97c82158aefcd501d46"
     },
     {
-      "path": "assets/index-CeHVUf4V.css",
-      "bytes": 34165,
-      "sha256": "77dfcd1194ff68028dba47e37bf343d202baecf8584210582f3dfb762aa9145a"
+      "path": "assets/index-EdW-02BZ.css",
+      "bytes": 36428,
+      "sha256": "43f3d8bc5faca3d647dddb9fd054c2a4d6f85e47ef20f06d230f5d3afbdc85d6"
+    },
+    {
+      "path": "assets/tn-002-DyCaBABf.webp",
+      "bytes": 78186,
+      "sha256": "0865d9fde369268e670356da9a7dc8ef02442e4732eb9114731e1e67e28bcadf"
+    },
+    {
+      "path": "assets/tn-011-C397xO4i.webp",
+      "bytes": 67374,
+      "sha256": "a561be308925a189129cea92d4027f816b45f36c8afec0f0eb5d20f5a1cb5626"
+    },
+    {
+      "path": "assets/tn-031-mYx2Z-CK.webp",
+      "bytes": 40750,
+      "sha256": "a4a7b71aaf8ae4405833f6af7ce7ef9f3a1d86981ac7199643560862741f585b"
+    },
+    {
+      "path": "assets/tn-046-BCxVNxXZ.webp",
+      "bytes": 72368,
+      "sha256": "0fb2470d4c2a5684a4154f71c878d77a3f7aa96709abdbb9928443ae63e117ca"
     },
     {
       "path": "data/data-version.json",
@@ -52,13 +72,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 1053,
-      "sha256": "a5c459e2dba9b96fbb20acc4d7d09c972a7f57f67946e2f3e4716bbd147ffd23"
+      "bytes": 1072,
+      "sha256": "9b3d0c5b2e47794dc8490aa1301df3dfae59e3838382034bb1eac1ec311086ca"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "bytes": 25135,
-      "sha256": "14d5d68dba7721b9e2e68c425ac9274e155c3decf1ee8c66ad8d9e003e1f42e9"
+      "bytes": 27045,
+      "sha256": "7e915d9dd1b669c19be05633e0fb2c6c361f3ac04605671d6062e2a7dad343b8"
     }
   ],
   "notes": "Public deployment must not include private source, Issues, Git history, secrets or QA material. No site was deployed by this command."

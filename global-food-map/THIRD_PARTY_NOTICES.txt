@@ -1,5 +1,5 @@
 THIRD-PARTY NOTICES
-Global Food Map V1.1-RC6
+Global Food Map V1.2.0
 
 Restaurant fact data: Tainan City Government Tourism Bureau, Government Open Data License v1.0.
 Dataset: https://data.tainan.gov.tw/DataSet/Detail/2fb41da2-1da9-47aa-b6d8-89ff1e87ee7f
@@ -233,3 +233,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+
+STORE PHOTOGRAPHS (local optimized WebP copies, original licenses retained)
+
+tn-002: 富盛號碗粿餐點實拍
+Photographed: 2016-08-31; Author: Sinchen.Lin
+Source: https://commons.wikimedia.org/wiki/File:15-台南早餐富盛號碗粿_(29484620896).jpg
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
+
+tn-011: 葉家小卷米粉餐點實拍
+Photographed: 2019-12-18; Author: tntchn
+Source: https://commons.wikimedia.org/wiki/File:葉家小卷米粉_Yie's_Neritic_Squid_Rice_Noodles-20191218.jpg
+License: CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
+
+tn-031: 度小月台南中正路16號本店擔仔麵歷史實拍
+Photographed: 2007-11-08; Author: iesing
+Source: https://commons.wikimedia.org/wiki/File:Taiwanese_dànzǎimiàn.jpg
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
+
+tn-046: 台南花園夜市人潮與攤位實景
+Photographed: 2016-05-08; Author: 范鈞傑
+Source: https://commons.wikimedia.org/wiki/File:台南花園夜市_景觀.jpg
+License: CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
+
+GOOGLE MAPS CONSUMER SHARE EMBEDS
+Maps, ratings and review counts are supplied by Google inside its original frame after visitor opt-in. No Google photos, ratings or review text are copied into the dataset. No API key, SDK or billing project. Google attribution remains within the frame.
+Official sharing instructions: https://support.google.com/maps/answer/7101463
+Google Maps terms: https://www.google.com/help/terms_maps/
