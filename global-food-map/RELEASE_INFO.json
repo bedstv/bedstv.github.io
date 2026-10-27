@@ -2,18 +2,18 @@
   "schema_version": 1,
   "kind": "audited-static-dist-only",
   "source_repository": "bedstv/global-food-map",
-  "source_commit": "c53a03eb0bdbf7c17e5d7988606d18a788b8ecf3",
+  "source_commit": "c05d3f7aea1de9f20da091e984b158b1c9364749",
   "data_version": "5a68ae84235e92569d39ebb8977253cab75677a46502207bd8a29452fd16db75",
   "files": [
     {
-      "path": "assets/index-BcEVoWiZ.js",
-      "bytes": 444232,
-      "sha256": "4f46e40f3aa595eda614179c9be6336762d53533f9e1b97c82158aefcd501d46"
+      "path": "assets/index-B4FqXvKh.css",
+      "bytes": 36598,
+      "sha256": "fe7df001fc7b5f7f9d727fd1bc99a9005f92da4010d90ae5bc0afca8e0459e50"
     },
     {
-      "path": "assets/index-EdW-02BZ.css",
-      "bytes": 36428,
-      "sha256": "43f3d8bc5faca3d647dddb9fd054c2a4d6f85e47ef20f06d230f5d3afbdc85d6"
+      "path": "assets/index-CGjztFpa.js",
+      "bytes": 444703,
+      "sha256": "5f123baa9b44f64add036f74de93331b3b432f3af65984e3f5bf1ffc603cdf06"
     },
     {
       "path": "assets/tn-002-DyCaBABf.webp",
@@ -73,7 +73,7 @@
     {
       "path": "index.html",
       "bytes": 1072,
-      "sha256": "9b3d0c5b2e47794dc8490aa1301df3dfae59e3838382034bb1eac1ec311086ca"
+      "sha256": "6592d2db48bece5eb859a0dbf7db1b6063e5043bec1bdc5fbd776a97b7ecee31"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
