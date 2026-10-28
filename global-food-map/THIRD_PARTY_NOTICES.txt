@@ -261,6 +261,20 @@ Source: https://commons.wikimedia.org/wiki/File:台南花園夜市_景觀.jpg
 License: CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0/
 Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
 
+tn-012: 康樂市場赤崁棺材板餐點歷史實拍
+Title: 赤崁棺材板 (12305624473).jpg
+Photographed: 2014-02-02; Author: othree
+Source: https://commons.wikimedia.org/wiki/File:赤崁棺材板_(12305624473).jpg
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
+
+tn-021: 矮仔成蝦仁飯海安路一段66號歷史店面
+Title: Ai Zai Cheng Shrimp Rice 20120203.jpg
+Photographed: 2012-02-03; Author: rheins
+Source: https://commons.wikimedia.org/wiki/File:Ai_Zai_Cheng_Shrimp_Rice_20120203.jpg
+License: CC BY 3.0 https://creativecommons.org/licenses/by/3.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Not current business appearance.
+
 GOOGLE MAPS CONSUMER SHARE EMBEDS
 Maps, ratings and review counts are supplied by Google inside its original frame after visitor opt-in. No Google photos, ratings or review text are copied into the dataset. No API key, SDK or billing project. Google attribution remains within the frame.
 Official sharing instructions: https://support.google.com/maps/answer/7101463

@@ -2,18 +2,18 @@
   "schema_version": 1,
   "kind": "audited-static-dist-only",
   "source_repository": "bedstv/global-food-map",
-  "source_commit": "c05d3f7aea1de9f20da091e984b158b1c9364749",
-  "data_version": "5a68ae84235e92569d39ebb8977253cab75677a46502207bd8a29452fd16db75",
+  "source_commit": "573e0815f0e23a6ac493cf5ed25f4c0b1dc2988b",
+  "data_version": "d99d3d3d3fd533c4ea3fd2a60d6d7bb8a6d5c7ce731ae1b84324955e8c441936",
   "files": [
     {
-      "path": "assets/index-B4FqXvKh.css",
-      "bytes": 36598,
-      "sha256": "fe7df001fc7b5f7f9d727fd1bc99a9005f92da4010d90ae5bc0afca8e0459e50"
+      "path": "assets/index-C8y_VU8G.js",
+      "bytes": 446122,
+      "sha256": "2944b7152121e9366678a802a19ab8ae3924bbcbc9e0f0a7e824edb81688279f"
     },
     {
-      "path": "assets/index-CGjztFpa.js",
-      "bytes": 444703,
-      "sha256": "5f123baa9b44f64add036f74de93331b3b432f3af65984e3f5bf1ffc603cdf06"
+      "path": "assets/index-DCc4GZSL.css",
+      "bytes": 36740,
+      "sha256": "1e26ca654ef8a33a36260381f1746416a3dd1f4f1b6795a874f8e5c8f4be6474"
     },
     {
       "path": "assets/tn-002-DyCaBABf.webp",
@@ -24,6 +24,16 @@
       "path": "assets/tn-011-C397xO4i.webp",
       "bytes": 67374,
       "sha256": "a561be308925a189129cea92d4027f816b45f36c8afec0f0eb5d20f5a1cb5626"
+    },
+    {
+      "path": "assets/tn-012-DTZ3oWHN.webp",
+      "bytes": 28666,
+      "sha256": "97ea45b15c056e8ce909471c6efa968664ad5a0bf76ac6d8827b5d6ecf6f4392"
+    },
+    {
+      "path": "assets/tn-021-BMtrmLxX.webp",
+      "bytes": 125642,
+      "sha256": "a6b99d0b3385273b4cbd615d6a2e5f8c9c64cfedc0fac0ebb692cd44876ca09e"
     },
     {
       "path": "assets/tn-031-mYx2Z-CK.webp",
@@ -38,7 +48,7 @@
     {
       "path": "data/data-version.json",
       "bytes": 575,
-      "sha256": "cc5cc25d87abe5a0af305c504a22e152946ce1e272c9b0154944048ccc56a599"
+      "sha256": "d7c47de97ca5b31e63cfd612d28f13ddc630240eda3044ebbebb2207ffd8c680"
     },
     {
       "path": "data/featured-routes.json",
@@ -51,34 +61,34 @@
       "sha256": "fe6e0136dd4dac9b4fed9526a3969e75e6971a197bbbb8c0b4c752ee25b9f211"
     },
     {
-      "path": "data/releases/5a68ae84235e92569d39ebb8977253cab75677a46502207bd8a29452fd16db75/featured-routes.json",
+      "path": "data/releases/d99d3d3d3fd533c4ea3fd2a60d6d7bb8a6d5c7ce731ae1b84324955e8c441936/featured-routes.json",
       "bytes": 683,
       "sha256": "60a626c28e0d14277608e17cfae42f37910809b5af286bbf376ba79b9e831fef"
     },
     {
-      "path": "data/releases/5a68ae84235e92569d39ebb8977253cab75677a46502207bd8a29452fd16db75/places.csv",
+      "path": "data/releases/d99d3d3d3fd533c4ea3fd2a60d6d7bb8a6d5c7ce731ae1b84324955e8c441936/places.csv",
       "bytes": 24465,
       "sha256": "fe6e0136dd4dac9b4fed9526a3969e75e6971a197bbbb8c0b4c752ee25b9f211"
     },
     {
-      "path": "data/releases/5a68ae84235e92569d39ebb8977253cab75677a46502207bd8a29452fd16db75/wishlist.csv",
-      "bytes": 294,
-      "sha256": "bd02f791d59045674e595fcde6b9edbe74cba296391bacfdf6be473979430b7f"
+      "path": "data/releases/d99d3d3d3fd533c4ea3fd2a60d6d7bb8a6d5c7ce731ae1b84324955e8c441936/wishlist.csv",
+      "bytes": 693,
+      "sha256": "496d4ed4a2e2f2f315a50ffc4d2336adce541d5574d5c30b78fab6136149fc36"
     },
     {
       "path": "data/wishlist.csv",
-      "bytes": 294,
-      "sha256": "bd02f791d59045674e595fcde6b9edbe74cba296391bacfdf6be473979430b7f"
+      "bytes": 693,
+      "sha256": "496d4ed4a2e2f2f315a50ffc4d2336adce541d5574d5c30b78fab6136149fc36"
     },
     {
       "path": "index.html",
       "bytes": 1072,
-      "sha256": "6592d2db48bece5eb859a0dbf7db1b6063e5043bec1bdc5fbd776a97b7ecee31"
+      "sha256": "8c655885ef0126a16695b4bc873aa225b113b87678d08b38ab888da80a751343"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "bytes": 27045,
-      "sha256": "7e915d9dd1b669c19be05633e0fb2c6c361f3ac04605671d6062e2a7dad343b8"
+      "bytes": 27830,
+      "sha256": "8fc28ea450ad1ff3654ad7ee5794b28d832f3d0031e8b4a244a4a8abad22f23e"
     }
   ],
   "notes": "Public deployment must not include private source, Issues, Git history, secrets or QA material. No site was deployed by this command."
