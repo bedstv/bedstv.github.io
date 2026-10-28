@@ -1,5 +1,5 @@
 THIRD-PARTY NOTICES
-Global Food Map V1.2.0
+Global Food Map V1.2.3
 
 Restaurant fact data: Tainan City Government Tourism Bureau, Government Open Data License v1.0.
 Dataset: https://data.tainan.gov.tw/DataSet/Detail/2fb41da2-1da9-47aa-b6d8-89ff1e87ee7f
@@ -279,3 +279,71 @@ GOOGLE MAPS CONSUMER SHARE EMBEDS
 Maps, ratings and review counts are supplied by Google inside its original frame after visitor opt-in. No Google photos, ratings or review text are copied into the dataset. No API key, SDK or billing project. Google attribution remains within the frame.
 Official sharing instructions: https://support.google.com/maps/answer/7101463
 Google Maps terms: https://www.google.com/help/terms_maps/
+
+FLICKR PHOTOGRAPHS — V1.2.3
+NonCommercial (NC) images are used for this personal, noncommercial sharing site.
+Each optimized image retains its own license; ShareAlike (SA) applies only when stated.
+No endorsement by photographers is implied.
+
+tn-001: 金得春捲店面及春捲歷史實拍
+Title: ［台南市。中西區］金得春捲
+Photographed: 2022-12-03; Author: 墨武
+Source: https://www.flickr.com/photos/neloangelo/52555820374/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-003: 阿松割包餐點歷史實拍
+Title: 台南，阿松割包
+Photographed: 2020-08-04; Author: 伊特諾 雷（Eternal-Ray）
+Source: https://www.flickr.com/photos/eternal_ray/50215023947/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-007: 邱家小卷米粉餐點實拍
+Title: 小卷米粉, 邱家小卷米粉, 台南, 台灣, Tainan, Taiwan
+Photographed: 2022-05-16; Author: bryan...
+Source: https://www.flickr.com/photos/bryansjs/52316407210/
+License: CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-009: 江水號米糕粥餐點歷史實拍
+Title: 20141219_台南玩第二天_江水號_04_米糕粥
+Photographed: 2014-12-19; Author: 挪威 企鵝（macglee）
+Source: https://www.flickr.com/photos/macglee/16156611026/
+License: CC BY-SA 2.0 https://creativecommons.org/licenses/by-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-022: 六千牛肉湯店面歷史實拍
+Title: 台南，六千牛肉湯
+Photographed: 2023-02-17; Author: 伊特諾 雷（Eternal-Ray）
+Source: https://www.flickr.com/photos/eternal_ray/52940208571/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-023: 阿堂鹹粥店面歷史實拍，保留攝影者浮水印
+Title: 台南中西．阿堂鹹粥
+Photographed: 2016-01-09; Author: Albert Hsieh（Alberthsieh）
+Source: https://www.flickr.com/photos/albert_hsieh/24139175943/
+License: CC BY-NC 2.0 https://creativecommons.org/licenses/by-nc/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-030: 雙全紅茶歷史店面及招牌
+Title: 台南 雙全紅茶
+Photographed: 2014-10-25; Author: othree
+Source: https://www.flickr.com/photos/othree/15465519287/
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-033: 莉莉水果店水果冰餐點歷史實拍
+Title: 莉莉水果店
+Photographed: 2014-11-04; Author: uemura（uemu）
+Source: https://www.flickr.com/photos/ueblog/15704814776/
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+tn-034: 窄門咖啡歷史店面窗景與遮雨棚
+Title: 104/1/25 窄門咖啡 (台南市)
+Photographed: 2015-01-25; Author: Wang Fonghu
+Source: https://www.flickr.com/photos/60396351@N05/15819177894/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.

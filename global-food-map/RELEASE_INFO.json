@@ -2,23 +2,43 @@
   "schema_version": 1,
   "kind": "audited-static-dist-only",
   "source_repository": "bedstv/global-food-map",
-  "source_commit": "573e0815f0e23a6ac493cf5ed25f4c0b1dc2988b",
+  "source_commit": "ec1c3d8ea1d640a4b86252deef226fe77b76a297",
   "data_version": "d99d3d3d3fd533c4ea3fd2a60d6d7bb8a6d5c7ce731ae1b84324955e8c441936",
   "files": [
-    {
-      "path": "assets/index-C8y_VU8G.js",
-      "bytes": 446122,
-      "sha256": "2944b7152121e9366678a802a19ab8ae3924bbcbc9e0f0a7e824edb81688279f"
-    },
     {
       "path": "assets/index-DCc4GZSL.css",
       "bytes": 36740,
       "sha256": "1e26ca654ef8a33a36260381f1746416a3dd1f4f1b6795a874f8e5c8f4be6474"
     },
     {
+      "path": "assets/index-DHyK39bp.js",
+      "bytes": 450378,
+      "sha256": "fc40592bc9d78d09beab2ba4d7ae672451f2b42a9eb17491ff910803ce28f1a9"
+    },
+    {
+      "path": "assets/tn-001-2iYaPw7q.webp",
+      "bytes": 52584,
+      "sha256": "f13c6d5c39779a8ba83643e6110f78522b0951cb31e6375e560f5ff2b5f45166"
+    },
+    {
       "path": "assets/tn-002-DyCaBABf.webp",
       "bytes": 78186,
       "sha256": "0865d9fde369268e670356da9a7dc8ef02442e4732eb9114731e1e67e28bcadf"
+    },
+    {
+      "path": "assets/tn-003-Ddv_i0Ba.webp",
+      "bytes": 45798,
+      "sha256": "f693e176821a3a467c7196f8bac31d77a6f8e2259f44f356c4cb5cc34076f276"
+    },
+    {
+      "path": "assets/tn-007-HGQSB-aX.webp",
+      "bytes": 59880,
+      "sha256": "351c45d6e05f59b40b4cd2868e16efdbdbd9388b569179e8a29f15b662c236d0"
+    },
+    {
+      "path": "assets/tn-009-Damq4gkW.webp",
+      "bytes": 37918,
+      "sha256": "c2440f975401d8b4dcdf816b3b2dc6b30553c46e489dfc086ae6cc86b7bc0a13"
     },
     {
       "path": "assets/tn-011-C397xO4i.webp",
@@ -36,9 +56,34 @@
       "sha256": "a6b99d0b3385273b4cbd615d6a2e5f8c9c64cfedc0fac0ebb692cd44876ca09e"
     },
     {
+      "path": "assets/tn-022-B2PEQxoP.webp",
+      "bytes": 51518,
+      "sha256": "dc4269a53d8885014e438ec4885fe24711fdac0cfa47d33a3cc4850d8528ba14"
+    },
+    {
+      "path": "assets/tn-023-Cxy7G0ul.webp",
+      "bytes": 110164,
+      "sha256": "8ac1f030d15005ecd9965a7c870c128af7acfefba1b9264f023337e6d95ae66f"
+    },
+    {
+      "path": "assets/tn-030-BQonxBlw.webp",
+      "bytes": 91634,
+      "sha256": "c3b93f7454d571596af464c8fd22e7dca07abb8ebf6f3569a22025bc5612a99b"
+    },
+    {
       "path": "assets/tn-031-mYx2Z-CK.webp",
       "bytes": 40750,
       "sha256": "a4a7b71aaf8ae4405833f6af7ce7ef9f3a1d86981ac7199643560862741f585b"
+    },
+    {
+      "path": "assets/tn-033-CwSuOueB.webp",
+      "bytes": 29184,
+      "sha256": "6395155d597c42ec89355d56c6daaa7eb0d0f8d6fc19d16b2a851dd9f2f67adf"
+    },
+    {
+      "path": "assets/tn-034-gy_vcYAT.webp",
+      "bytes": 123508,
+      "sha256": "d8d72f974a710cbd125b7e4570155df32e3dea2694d0d057c2a5663dec45e4b7"
     },
     {
       "path": "assets/tn-046-BCxVNxXZ.webp",
@@ -83,12 +128,12 @@
     {
       "path": "index.html",
       "bytes": 1072,
-      "sha256": "8c655885ef0126a16695b4bc873aa225b113b87678d08b38ab888da80a751343"
+      "sha256": "2e903d3bb6168715df7b989266ba66916b0af775980023851b243662b43d6bfe"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
-      "bytes": 27830,
-      "sha256": "8fc28ea450ad1ff3654ad7ee5794b28d832f3d0031e8b4a244a4a8abad22f23e"
+      "bytes": 31861,
+      "sha256": "a5ad7e25a7926ef13682bafeb056530b15b58f420a582d511a3fa91aef64f0ca"
     }
   ],
   "notes": "Public deployment must not include private source, Issues, Git history, secrets or QA material. No site was deployed by this command."
