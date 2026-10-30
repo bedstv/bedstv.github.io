@@ -1,5 +1,5 @@
 THIRD-PARTY NOTICES
-Global Food Map V1.2.3
+Global Food Map V1.2.4
 
 Restaurant fact data: Tainan City Government Tourism Bureau, Government Open Data License v1.0.
 Dataset: https://data.tainan.gov.tw/DataSet/Detail/2fb41da2-1da9-47aa-b6d8-89ff1e87ee7f
@@ -347,3 +347,93 @@ Photographed: 2015-01-25; Author: Wang Fonghu
 Source: https://www.flickr.com/photos/60396351@N05/15819177894/
 License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
 Changes: resized and converted to WebP; thumbnails may visually crop. Original watermark retained where present. Not current business appearance.
+
+FLICKR PHOTOGRAPHS — V1.2.4
+Each image retains its individual original license, including NonCommercial and ShareAlike where stated.
+Use is for this personal noncommercial sharing site. No photographer endorsement is implied.
+
+tn-019: 阿明豬心冬粉保安路72號歷史店面與料理檯面
+Title: 20141219_台南玩第二天_阿明豬心_01
+Source date: 2015-01-01; Author: 挪威 企鵝（macglee）
+Date caveat: 來源頁日期為 2015-01-01，作品名記為 2014-12-19；實際拍攝日待確認。
+Source: https://www.flickr.com/photos/macglee/16172331031/
+License: CC BY-SA 2.0 https://creativecommons.org/licenses/by-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-035: 克林台包八寶肉包包裝歷史實拍
+Title: DSC00988-克林台包
+Photographed: 2011-05-16; Author: 準建築人手札網站 Forgemind ArchiMedia
+Source: https://www.flickr.com/photos/eager/5726203561/
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-025: 義豐阿川冬瓜茶歷史招牌，招牌門牌為永福路二段216號
+Title: 義豐冬瓜茶
+Photographed: 2010-10-04; Author: Vanessa Wu
+Source: https://www.flickr.com/photos/hjw223/5102311637/
+License: CC BY-NC 2.0 https://creativecommons.org/licenses/by-nc/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-036: 太陽牌冰品紅豆牛奶冰餐點實拍
+Title: 台南，太陽牌
+Photographed: 2025-10-29; Author: 伊特諾 雷（Eternal-Ray）
+Source: https://www.flickr.com/photos/eternal_ray/54910859532/
+License: CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-014: 保安路米糕餐點歷史實拍
+Title: 保安路米糕
+Photographed: 2011-07-11; Author: Kaba
+Source: https://www.flickr.com/photos/kaba/5945780085/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-010: 泰成水果店歷史店面與招牌
+Title: 泰成水果店
+Source date: 2015-09-27; Author: Joyce Wang
+Date caveat: 2015-09-27 為來源頁上傳日期，實際拍攝日未提供。
+Source: https://www.flickr.com/photos/jaffera/21752987505/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-015: 阿龍香腸熟肉店內香腸與熟肉檯面歷史實拍
+Title: IMG_3687
+Photographed: 2009-09-08; Author: 我是魚夫
+Source: https://www.flickr.com/photos/yufujamar/3900171983/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-004: 石精臼蚵仔煎紅色招牌及店面歷史實拍
+Title: 石精臼蚵仔煎
+Photographed: 2019-11-29; Author: uemura（uemu）
+Source: https://www.flickr.com/photos/ueblog/49151351591/
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-040: 阿憨鹹粥魚粥與油條餐點歷史實拍
+Title: 阿憨鹹粥
+Photographed: 2013-10-12; Author: ddio（ddio.tw）
+Source: https://www.flickr.com/photos/ddio/10514600915/
+License: CC BY-SA 2.0 https://creativecommons.org/licenses/by-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-005: 永樂燒肉飯歷史店面與招牌
+Title: 永樂燒肉飯
+Photographed: 2010-11-18; Author: 溜 小摸
+Source: https://www.flickr.com/photos/goldenink/8679463837/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-037: 萬川號蒸籠包子歷史實拍
+Title: 萬川號
+Photographed: 2011-05-09; Author: Kaba
+Source: https://www.flickr.com/photos/kaba/5703689301/
+License: CC BY-NC-SA 2.0 https://creativecommons.org/licenses/by-nc-sa/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
+
+tn-024: 落成米糕餐點及店內歷史實拍，背景可見店名招牌
+Title: 落成米糕
+Photographed: 2016-03-18; Author: Jerry Liu
+Source: https://www.flickr.com/photos/alamod951753/25736035400/
+License: CC BY-NC 2.0 https://creativecommons.org/licenses/by-nc/2.0/
+Changes: resized and converted to WebP; thumbnails may visually crop. Original image content retained. Not current business appearance.
